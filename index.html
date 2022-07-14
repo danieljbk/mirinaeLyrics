@@ -6,11 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>K-Pop Translator</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   </head>
 
   <body>
+    <header>
     <h1>K-Pop Translator</h1>
+  </header>
 
+  <div class="input-songinfo">
     <div class="flex">
       <input
         id="textarea-song"
@@ -18,22 +24,24 @@
         placeholder="What's the song's name in Korean?"
         required
       ></input>
-      <button id="button-translate" class="btn">Translate</button>
+      <button id="button-translate" class="button-75" role="button"><span>Translate</span></button>
+    </div>
+    
       <!--<div>
         <button id="button-translate" class="btn">Translate</button>
       </div>-->
     </div>
     <div class="display-song-content">
-    <h2 id="display-song-title"></h2>
-    <h3 id="display-artist-name"></h3>
+    <p id="display-song-title"></p>
+    <p id="display-artist-name"></p>
     </div>
 
     <div class="flex">
-      <div>
+      <div class="korean-version">
         <h3 id="korean-title"></h3>
         <p id="korean-lyrics"></p>
       </div>
-      <div style="padding-left: 25px">
+      <div class="english-version">
         <h3 id="english-title"></h3>
         <p id="english-lyrics"></p>
       </div>

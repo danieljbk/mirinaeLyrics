@@ -1,16 +1,45 @@
 .flex {
-  position: absolute;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  margin: 0;
+  display: inline-flex;
   justify-content: center;
+  font-size: 25px;
+}
+
+header {
+  text-align: left;
+  padding: 2rem 0 0 3.5rem;
+  background-color: #000000;
+  margin: 0 0 3rem 0;
+  height: 5rem;
+  width: 100%;
+}
+
+#display-song-title {
+  font-size: 60px;
+  font-weight: bold;
+}
+
+#display-artist-name {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+h1 {
+  margin: 0;
 }
 
 body {
+  color: #fff;
+  background-color: #1d1d1d;
+  font-family: 'Montserrat', sans-serif;
   text-align: center;
   font-family: helvetica;
   font-size: large;
-  padding-left: 20px;
+  margin: 0;
+}
+.display-song-content {
+  background-color: #1d1d1d;
+  margin: 0;
 }
 
 ul {
@@ -29,32 +58,76 @@ li {
   font-family: helvetica;
 }
 
-.btn {
-  position: relative;
-  margin-left: 1rem;
-  height: 33px;
-  width: 120px;
-  border-radius: 5%;
-  color: var(--btnFontColor);
-  background-color: var(--btnBg);
-  font-size: 20px;
-  font-family: 'Noto Sans Display', sans-serif;
-  font-weight: 400;
+.input-songinfo {
+  padding-top: 3rem;
+}
+
+/* CSS */
+.button-75 {
+  align-items: center;
+  background-image: linear-gradient(135deg, #f34079 40%, #fc894d);
+  border: 0;
+  border-radius: 10px;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Codec cold', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  height: 44px;
+  justify-content: center;
+  letter-spacing: 0.4px;
+  line-height: 1;
+  max-width: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 2px;
+  text-decoration: none;
+  text-transform: uppercase;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  margin: 4.5px 0 0 1rem;
+}
+
+.button-75:active {
+  outline: 0;
+}
+
+.button-75:hover {
+  outline: 0;
+}
+
+.button-75 span {
+  transition: all 200ms;
+}
+
+.button-75:hover span {
+  transform: scale(0.9);
+  opacity: 0.75;
+}
+
+@media screen and (max-width: 991px) {
+  .button-75 {
+    font-size: 15px;
+    height: 50px;
+  }
+
+  .button-75 span {
+    line-height: 50px;
+  }
 }
 
 input {
-  padding-top: 7.5px;
   padding-left: 20px;
   border-width: 1.2px;
-  border-radius: 20px;
-  font-size: 20px;
+  border-radius: 25px;
+  font-size: 25px;
   display: block;
   width: 500px;
-  height: 33px;
-
-  font-family: 'Noto Sans Display', sans-serif;
-  font-weight: 400;
-}
-
-.display-song-content {
+  height: 45px;
+  border-width: thin;
+  margin-bottom: 2.5rem;
 }
