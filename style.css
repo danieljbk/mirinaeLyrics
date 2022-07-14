@@ -1,9 +1,13 @@
 .flex {
+  position: absolute;
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 body {
+  text-align: center;
   font-family: helvetica;
   font-size: large;
   padding-left: 20px;
@@ -26,9 +30,8 @@ li {
 }
 
 .btn {
-  position: absolute;
-  margin-top: 5px;
-  left: 565px;
+  position: relative;
+  margin-left: 1rem;
   height: 33px;
   width: 120px;
   border-radius: 5%;
@@ -39,7 +42,7 @@ li {
   font-weight: 400;
 }
 
-textarea {
+input {
   padding-top: 7.5px;
   padding-left: 20px;
   border-width: 1.2px;
@@ -48,7 +51,10 @@ textarea {
   display: block;
   width: 500px;
   height: 33px;
-  margin-bottom: 20px;
+
   font-family: 'Noto Sans Display', sans-serif;
   font-weight: 400;
+}
+
+.display-song-content {
 }

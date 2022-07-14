@@ -21,14 +21,14 @@ const submitSearch = () => {
     englishTitle.textContent = '';
     englishLyrics.textContent = '';
 
-    fetch('backendUrl' + userInput + ' ' + 'korean')
+    fetch(backendUrl + userInput + ' ' + 'korean')
       .then((res) => res.json())
       .then((data_1) => {
         const artistName = data_1.artist;
 
         const korean = data_1.lyrics;
         if (korean) {
-          fetch('backendUrl' + userInput + ' ' + 'english')
+          fetch(backendUrl + userInput + ' ' + 'english')
             .then((res) => res.json())
             .then((data_2) => {
               const english = data_2.lyrics;
