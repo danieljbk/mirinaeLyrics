@@ -17,13 +17,14 @@ app.get('/:songTitle', async (req, res) => {
   try {
     const searches = await Client.songs.search(req.params.songTitle);
     const firstSong = searches[0];
-    const artist = searches[0].artist.name;
+    const title = firstSong.title;
+    const artist = firstSong.artist.name;
     const lyrics = await firstSong.lyrics();
+    const imageSrc = firstSong.image;
 
     res.append('Access-Control-Allow-Origin', ['*']);
-    res.send({ artist, lyrics });
+    res.send({ title, artist, lyrics, imageSrc });
   } catch (err) {
-    console.log('Could not find the lyrics for the song.');
     res.append('Access-Control-Allow-Origin', ['*']);
     res.send({});
   }

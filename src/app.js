@@ -12,54 +12,79 @@ const submitSearch = () => {
     const artist = document.getElementById('display-artist-name');
     artist.textContent = '';
 
-    const koreanTitle = document.getElementById('korean-title');
-    const koreanLyrics = document.getElementById('korean-lyrics');
-    const englishTitle = document.getElementById('english-title');
-    const englishLyrics = document.getElementById('english-lyrics');
+    const koreanTitleText = document.getElementById('korean-title');
+    const koreanLyricsText = document.getElementById('korean-lyrics');
+    const englishTitleText = document.getElementById('english-title');
+    const englishLyricsText = document.getElementById('english-lyrics');
 
-    koreanTitle.textContent = '';
-    koreanLyrics.textContent = '';
-    englishTitle.textContent = '';
-    englishLyrics.textContent = '';
+    koreanTitleText.textContent = '';
+    koreanLyricsText.textContent = '';
+    englishTitleText.textContent = '';
+    englishLyricsText.textContent = '';
 
+    const songImage = document.getElementById('display-song-image');
+    songImage.src = '';
     fetch(backendUrl + userInput + ' ' + 'korean')
       .then((res) => res.json())
-      .then((data_1) => {
-        const artistName = data_1.artist;
+      .then(async (koreanSongData) => {
+        const title = koreanSongData.title;
+        const artistName = koreanSongData.artist;
+        const koreanLyrics = await koreanSongData.lyrics;
+        const imageSrc = koreanSongData.imageSrc;
 
-        const korean = data_1.lyrics;
-        if (korean) {
+        if (koreanLyrics) {
           fetch(backendUrl + userInput + ' ' + 'english')
             .then((res) => res.json())
-            .then((data_2) => {
-              const english = data_2.lyrics;
-              if (english) {
+            .then(async (englishSongData) => {
+              const englishLyrics = await englishSongData.lyrics;
+              if (englishLyrics) {
+                const songImage = document.getElementById('display-song-image');
+                songImage.src = imageSrc;
+
                 const songTitle = document.getElementById('display-song-title');
-                songTitle.textContent = userInput;
+                songTitle.textContent = title;
 
                 const artist = document.getElementById('display-artist-name');
                 artist.textContent = 'By' + ' ' + artistName;
 
-                const koreanTitle = document.getElementById('korean-title');
-                const koreanLyrics = document.getElementById('korean-lyrics');
-                const englishTitle = document.getElementById('english-title');
-                const englishLyrics = document.getElementById('english-lyrics');
+                const koreanTitleText = document.getElementById('korean-title');
+                const koreanLyricsText =
+                  document.getElementById('korean-lyrics');
+                const englishTitleText =
+                  document.getElementById('english-title');
+                const englishLyricsText =
+                  document.getElementById('english-lyrics');
 
-                koreanTitle.textContent = 'Korean';
+                koreanTitleText.textContent = 'Korean';
 
-                koreanLyrics.setAttribute('style', 'white-space: pre;');
-                koreanLyrics.textContent = korean.replaceAll('\n', '\r\n');
+                koreanLyricsText.setAttribute('style', 'white-space: pre;');
+                koreanLyricsText.textContent = koreanLyrics.replaceAll(
+                  '\n',
+                  '\r\n'
+                );
 
-                englishTitle.textContent = 'English';
+                englishTitleText.textContent = 'English';
 
-                englishLyrics.setAttribute('style', 'white-space: pre;');
-                englishLyrics.textContent = english.replaceAll('\n', '\r\n');
+                englishLyricsText.setAttribute('style', 'white-space: pre;');
+                englishLyricsText.textContent = englishLyrics.replaceAll(
+                  '\n',
+                  '\r\n'
+                );
+              } else {
+                throw new Error('Unable to fetch English lyrics.');
               }
+            })
+            .catch((err) => {
+              const songTitle = document.getElementById('display-song-title');
+              songTitle.textContent = err;
             });
         } else {
-          const songTitle = document.getElementById('display-song-title');
-          songTitle.textContent = 'Could not find the lyrics for the song.';
+          throw new Error('Unable to fetch Korean lyrics.');
         }
+      })
+      .catch((err) => {
+        const songTitle = document.getElementById('display-song-title');
+        songTitle.textContent = err;
       });
   }
 };
