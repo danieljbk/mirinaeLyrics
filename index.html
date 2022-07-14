@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>K-Pop Translator</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <h1>K-Pop Translator</h1>
+
+    <div class="flex">
+      <textarea
+        id="textarea-song"
+        class="input-info"
+        rows="1"
+        placeholder="What's the song's name in Korean?"
+        required
+      ></textarea>
+      <div>
+        <button id="button-translate" class="btn">Translate</button>
+      </div>
+    </div>
+
+    <h2 id="display-song-title"></h2>
+    <h3 id="display-artist-name"></h3>
+
+    <div class="flex">
+      <div>
+        <h3 id="korean-title"></h3>
+        <p id="korean-lyrics"></p>
+      </div>
+      <div style="padding-left: 25px">
+        <h3 id="english-title"></h3>
+        <p id="english-lyrics"></p>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+    <noscript>You need to enable JavaScript to view the full site.</noscript>
+  </body>
+</html>

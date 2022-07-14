@@ -1,0 +1,54 @@
+.flex {
+  display: flex;
+  flex-direction: row;
+}
+
+body {
+  font-family: helvetica;
+  font-size: large;
+  padding-left: 20px;
+}
+
+ul {
+  font-family: helvetica;
+}
+
+li {
+  list-style: circle;
+}
+
+.list {
+  list-style: square;
+}
+
+#msg {
+  font-family: helvetica;
+}
+
+.btn {
+  position: absolute;
+  margin-top: 5px;
+  left: 565px;
+  height: 33px;
+  width: 120px;
+  border-radius: 5%;
+  color: var(--btnFontColor);
+  background-color: var(--btnBg);
+  font-size: 20px;
+  font-family: 'Noto Sans Display', sans-serif;
+  font-weight: 400;
+}
+
+textarea {
+  padding-top: 7.5px;
+  padding-left: 20px;
+  border-width: 1.2px;
+  border-radius: 20px;
+  font-size: 20px;
+  display: block;
+  width: 500px;
+  height: 33px;
+  margin-bottom: 20px;
+  font-family: 'Noto Sans Display', sans-serif;
+  font-weight: 400;
+}
