@@ -7,17 +7,17 @@ module.exports = {
     path: path.resolve(__dirname),
     filename: 'bundled.js',
   },
-  mode: 'development',
-  devtool: 'source-map',
-  devServer: {
-    port: 3333,
-    static: {
-      directory: path.join(__dirname),
-    },
-    hot: true,
-    liveReload: false,
-    historyApiFallback: { index: './index.html' },
-  },
+  mode: 'production',
+  // devtool: 'source-map',
+  // devServer: {
+  //   port: 3333,
+  //   static: {
+  //     directory: path.join(__dirname),
+  //   },
+  //   hot: true,
+  //   liveReload: false,
+  //   historyApiFallback: { index: './index.html' },
+  // },
   module: {
     rules: [
       {
