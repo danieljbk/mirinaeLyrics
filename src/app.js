@@ -1,7 +1,7 @@
 'use strict';
 
-// const backendUrl = 'https://kpoptranslator.herokuapp.com' + '/';
-const backendUrl = 'http://localhost:8080' + '/';
+const backendUrl = 'https://kpoptranslator.herokuapp.com' + '/';
+// const backendUrl = 'http://localhost:8080' + '/';
 
 const submitSearch = () => {
   const userInput = document.getElementById('textarea-song').value;
