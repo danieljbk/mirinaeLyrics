@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: 'app.js',
+  entry: './app.js',
   output: {
     publicPath: '/',
     path: path.resolve(__dirname),
@@ -12,11 +12,11 @@ module.exports = {
   devServer: {
     port: 3333,
     static: {
-      directory: path.join(__dirname, 'app'),
+      directory: path.join(__dirname),
     },
     hot: true,
     liveReload: false,
-    historyApiFallback: { index: 'index.html' },
+    historyApiFallback: { index: './index.html' },
   },
   module: {
     rules: [

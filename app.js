@@ -1,6 +1,7 @@
 'use strict';
 
-const backendUrl = 'https://ktbackend.herokuapp.com' + '/';
+// const backendUrl = 'https://ktbackend.herokuapp.com' + '/';
+const backendUrl = 'http://localhost:8080' + '/';
 
 const submitSearch = () => {
   const userInput = document.getElementById('textarea-song').value;
