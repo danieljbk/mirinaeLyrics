@@ -32,7 +32,6 @@ body {
   background-color: #1d1d1d;
   font-family: 'Montserrat', sans-serif;
   text-align: center;
-  font-family: helvetica;
   font-size: large;
   margin: 0;
 }
@@ -70,7 +69,6 @@ body {
   text-transform: uppercase;
   -webkit-user-select: none;
   user-select: none;
-  touch-action: manipulation;
   margin: 2px 0 0 1rem;
 }
 

@@ -1,5 +1,7 @@
 'use strict';
 
+import css from '../style.css';
+
 const backendUrl = 'https://ktbackend.herokuapp.com' + '/';
 // const backendUrl = 'http://localhost:8080' + '/';
 
@@ -64,10 +66,8 @@ const submitSearch = () => {
   }
 };
 
-const translateButton = document.getElementById('button-translate');
-translateButton.onclick = () => {
-  submitSearch();
-};
+const translateButton = document.getElementById('translate-button');
+translateButton.onclick = submitSearch;
 
 // also submit when enter is pressed
 document.getElementById('textarea-song').onkeydown = (event) => {

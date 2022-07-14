@@ -5,32 +5,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>K-Pop Translator</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   </head>
 
   <body>
     <header>
-    <h1>K-Pop Translator</h1>
-  </header>
+      <h1>K-Pop Translator</h1>
+    </header>
 
-  <div class="input-songinfo">
-    <div class="flex">
-      <input
-        id="textarea-song"
-        class="input-info"
-        placeholder="What's the song's name in Korean?"
-        required
-      ></input>
-      <button id="button-translate" class="button-75" role="button"><span>Translate</span></button>
+    <div class="input-songinfo">
+      <div class="flex">
+        <input
+          id="textarea-song"
+          type="text"
+          class="input-info"
+          placeholder="What's the song's Korean title?"
+          required
+        />
+        <button id="translate-button" class="button-75">
+          <span>Translate</span>
+        </button>
+      </div>
     </div>
-    
-    </div>
+
     <div class="display-song-content">
-    <p id="display-song-title"></p>
-    <p id="display-artist-name"></p>
+      <p id="display-song-title"></p>
+      <p id="display-artist-name"></p>
     </div>
 
     <div class="flex">
@@ -44,7 +43,7 @@
       </div>
     </div>
 
-    <script src="app.js"></script>
-    <noscript>You need to enable JavaScript to view the full site.</noscript>
+    <script src="./app.bundle.js" defer></script>
+    <noscript>Please enable JavaScript.</noscript>
   </body>
 </html>
