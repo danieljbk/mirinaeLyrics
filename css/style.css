@@ -1,49 +1,6 @@
-.flex {
-  margin: 0;
-  display: inline-flex;
-  justify-content: center;
-  font-size: 25px;
-}
-
-header {
-  text-align: left;
-  padding: 2rem 0 0 3rem;
-  background-color: #000000;
-  height: 5rem;
-  width: 100%;
-}
-
-#display-song-title {
-  font-size: 60px;
-  font-weight: bold;
-}
-
-#display-artist-name {
-  font-size: 28px;
-  font-weight: bold;
-}
-
-h1 {
-  margin: 0;
-}
-
-body {
-  color: #fff;
-  background-color: #1d1d1d;
-  font-family: 'Montserrat', sans-serif;
-  text-align: center;
-  font-size: large;
-  margin: 0 !important;
-}
-
-.display-song-content {
-  background-color: #1d1d1d;
-  margin: 0;
-  padding-top: 5rem;
-}
-
-.input-songinfo {
-  padding-top: 5rem;
+:root {
+  --header-height: 12.5vh;
+  --footer-height: 6vh;
 }
 
 .button-75 {
@@ -101,14 +58,227 @@ body {
   }
 }
 
-input {
+html {
+  height: 100%;
+}
+
+body {
+  width: 100%;
+  min-height: 100%;
+  color: #fff;
+  background-color: #1d1d1d;
+  font-family: 'Montserrat', sans-serif;
+  margin: 0 !important;
+  display: table;
+}
+
+h1 {
+  margin: 0;
+}
+
+header {
+  background-color: #000000;
+  width: 100%;
+  height: var(--header-height);
+  z-index: 1;
+}
+
+footer {
+  background-color: #000000;
+  width: 100%;
+  height: var(--footer-height);
+  z-index: 1;
+}
+
+body > footer {
+  display: table-footer-group;
+}
+
+.title-input,
+textarea {
+  text-align: center;
+  padding: 20px;
+  display: block;
+  border-width: 1.2px;
+  border-radius: 15px;
+  font-size: 25px;
+  width: 500px;
+  border-width: thin;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #000000;
+  color: #fff;
+  opacity: 0.5;
+  border: none;
+}
+
+.title-input {
+  font-size: 35px;
+}
+
+.flex {
+  margin: 0;
+  display: inline-flex;
+  font-size: 20px;
+}
+
+#content {
+  display: grid;
+  text-align: center;
+}
+
+#header-content {
+  position: relative;
+  display: grid;
+  text-align: center;
+  top: 50%;
+  transform: translate(0%, -50%);
+  -webkit-transform: translate(0%, -50%);
+  -moz-transform: translate(0%, -50%);
+  -ms-transform: translate(0%, -50%);
+}
+
+#website-name,
+#user-search,
+#submit-translation {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+#website-name {
+  position: absolute;
+  width: fit-content;
+  padding-left: 4rem;
+}
+
+#submit-translation {
+  position: absolute;
+  align-self: center;
+  right: 4rem;
+  padding: 0;
+}
+
+#searchbar {
+  text-align: center;
   padding-left: 20px;
+  display: block;
   border-width: 1.2px;
   border-radius: 25px;
-  font-size: 25px;
-  display: block;
+  font-size: 22.5px;
   width: 500px;
   height: 45px;
   border-width: thin;
-  margin-bottom: 0rem;
+}
+
+#translate-button {
+  margin-left: 1.5vw;
+}
+
+#display-song-title,
+#error-message,
+#loading {
+  font-size: 60px;
+  font-weight: bold;
+}
+
+#display-artist-name {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+#display-message-text {
+  position: absolute;
+  width: 100%;
+  margin: 0;
+  text-align: center;
+}
+
+#display-song-content {
+  width: 100%;
+  margin: 0;
+  text-align: center;
+  min-height: calc(100vh - var(--header-height) - var(--footer-height));
+}
+
+#display-message-text,
+#header-content,
+#translated-area {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+#display-message-text {
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+#korean-version {
+  width: fit-content;
+}
+
+#english-version {
+  width: fit-content;
+}
+
+#display-song-image {
+  padding-top: 8vh;
+}
+
+#song-info {
+  text-align: center;
+  justify-content: center;
+  padding-bottom: 8vh;
+}
+
+.splitter {
+  width: 7.5vw;
+  height: 5vh;
+  align-self: center;
+}
+
+#user-translated {
+  height: fit-content;
+  width: 100%;
+  justify-content: center;
+}
+
+#translated-title {
+  margin-top: 4vh;
+  margin-bottom: 10vh;
+}
+
+#original-title {
+  font-size: 40px;
+  font-weight: bold;
+  margin-top: 5.5vh;
+  margin-bottom: 12.5vh;
+}
+
+#original-artist-name {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+#original-song-info,
+#translated-song-info {
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+#translation-area {
+  position: absolute;
+  width: 100vw;
+  padding-top: 2.5vh;
+  margin-top: calc(var(--header-height));
+}
+
+#original-lyrics {
+  font-size: 24px;
+}
+
+#page-container {
+  position: relative;
 }
