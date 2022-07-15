@@ -2,15 +2,18 @@
   "name": "K-Pop Translator",
   "version": "1.0.0",
   "description": "",
-  "main": "src/app.js",
+  "main": "public/src/app.js",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js -e js,json,html,css"
   },
   "dependencies": {
+    "axios": "^0.27.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "genius-lyrics": "^4.3.8",
-    "webpack": "^5.73.0"
+    "mongoose": "^6.4.4"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"

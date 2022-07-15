@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>K-Pop Translator</title>
-    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./public/css/style.css" />
   </head>
 
   <body>
@@ -14,7 +14,10 @@
         <header>
           <div id="header-content">
             <div id="website-name">
-              <h1>K-Pop Translator</h1>
+              <h1><a href="/">K-Pop Translator</a></h1>
+              <p style="margin-bottom: 5px">
+                Created by Joonbeom Kwon & Kai Seo
+              </p>
             </div>
             <div>
               <div class="flex">
@@ -36,6 +39,13 @@
               src=""
               alt=""
               width="70px"
+            />
+            <input
+              type="image"
+              id="edit-song-info"
+              src=""
+              alt=""
+              width="60px"
             />
           </div>
         </header>
@@ -63,7 +73,7 @@
 
           <div id="song-info" class="flex">
             <div id="korean-version">
-              <h3 id="korean-title"><p id="original-artist-name"></p></h3>
+              <h3 id="korean-title"></h3>
 
               <p id="korean-lyrics"></p>
             </div>
@@ -81,6 +91,7 @@
           <div id="user-translated" class="flex">
             <div id="original-song-info">
               <h3 id="original-title"></h3>
+              <p id="original-artist-name"></p>
               <p id="original-lyrics"></p>
             </div>
 
@@ -102,15 +113,15 @@
               ></textarea>
             </div>
           </div>
+          <div class="splitter"></div>
         </div>
       </div>
     </div>
 
-    <footer contentEditable>
-      <p>Created by Joonbeom Kwon & Kai Seo</p>
-    </footer>
+    <!-- <footer contentEditable></footer> -->
 
-    <script src="./src/app.js" defer></script>
+    <script type="module" src="./public/src/app.js" defer></script>
+    <script src="./node_modules/axios/dist/axios.min.js"></script>
     <noscript>Please enable JavaScript.</noscript>
   </body>
 </html>
