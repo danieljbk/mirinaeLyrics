@@ -1,7 +1,7 @@
 'use strict';
 
-// const backendUrl = 'https://kpoptranslator.herokuapp.com' + '/';
-const backendUrl = 'http://localhost:8080' + '/';
+const backendUrl = 'https://kpoptranslator.herokuapp.com' + '/';
+// const backendUrl = 'http://localhost:8080' + '/';
 
 let searchbar = document.getElementById('searchbar');
 let loading = document.getElementById('loading');
