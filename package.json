@@ -11,11 +11,13 @@
   "dependencies": {
     "array-union": "^3.0.1",
     "axios": "^0.27.2",
+    "connect-livereload": "^0.6.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "genius-lyrics": "^4.3.8",
     "inko": "^1.1.1",
+    "livereload": "^0.9.3",
     "mongoose": "^6.4.4",
     "path": "^0.12.7",
     "request": "^2.88.2",
@@ -23,8 +25,6 @@
     "string-similarity": "^4.0.4"
   },
   "devDependencies": {
-    "connect-livereload": "^0.6.1",
-    "livereload": "^0.9.3",
     "nodemon": "^2.0.19"
   }
 }
