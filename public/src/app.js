@@ -1,5 +1,7 @@
 'use strict';
 
+let inko = new Inko();
+
 const backendUrl = 'https://kpoptranslator.herokuapp.com' + '/';
 // const backendUrl = 'http://localhost:8080' + '/';
 
@@ -63,22 +65,36 @@ const submitSearch = () => {
         const koreanLyrics = await koreanSongData.lyrics;
         const imageSrc = koreanSongData.imageSrc;
 
+        // verify that there is a korean word in the lyrics
+        let koreanLyricsContainKorean = false;
+        console.log(koreanLyrics.replaceAll('\n', ' ').match(/[\p{L}-]+/gu));
         if (koreanLyrics) {
+          // turn newlines into space and get rid of special characters (turns it into an array)
+          for (let word of koreanLyrics
+            .replaceAll('\n', ' ')
+            .match(/[\p{L}-]+/gu)) {
+            if (word && word.toLowerCase() === inko.en2ko(word.toLowerCase())) {
+              koreanLyricsContainKorean = true;
+              break;
+            }
+          }
+        }
+
+        if (koreanLyrics && koreanLyricsContainKorean) {
           let englishTitle;
           let englishLyrics;
 
-          // see if the database has the song saved
+          // check if user-generated song data is in database
           try {
             await axios
               .get(backendUrl + 'songs' + '/' + title)
               .then((res) => res.data)
               .then(async (existingSong) => {
-                console.log(title, existingSong);
                 englishTitle = existingSong.englishTitle;
                 englishLyrics = existingSong.englishLyrics;
               });
           } catch (err) {
-            console.log(err);
+            console.log(title + ' is not in the database.');
           }
 
           // if not, see if Genius has the english lyrics
@@ -91,7 +107,24 @@ const submitSearch = () => {
               });
           }
 
+          // verify that there are no korean words in the lyrics
+          let englishLyricsDoesNotContainKorean = true;
           if (englishLyrics) {
+            // turn newlines into space and get rid of special characters (turns it into an array)
+            for (let word of englishLyrics
+              .replaceAll('\n', ' ')
+              .match(/[\p{L}-]+/gu)) {
+              if (
+                word &&
+                word.toLowerCase() === inko.en2ko(word.toLowerCase())
+              ) {
+                englishLyricsDoesNotContainKorean = false;
+                break;
+              }
+            }
+          }
+
+          if (englishLyrics && englishLyricsDoesNotContainKorean) {
             songImage.src = imageSrc;
             songTitle.textContent = title;
             artist.textContent = artistName;
@@ -162,7 +195,7 @@ const submitSearch = () => {
 
                   submitSearch();
                 } catch (err) {
-                  console.log(err);
+                  console.log('Failed to save translation.');
                 }
               };
             };
@@ -171,7 +204,18 @@ const submitSearch = () => {
 
             errorMsg.setAttribute('style', 'white-space: pre;');
             errorMsg.textContent =
-              'No English Lyrics Found.\r\n\r\nWould you like to add your own translation?';
+              'Nobody has translated' +
+              '\r\n' +
+              '"' +
+              title +
+              '"' +
+              '\r\n' +
+              'by' +
+              ' ' +
+              artistName +
+              '.' +
+              '\r\n\r\n' +
+              'Do it yourself?';
 
             addTranslationButton.onclick = () => {
               resetElements();
@@ -216,14 +260,25 @@ const submitSearch = () => {
 
                   submitSearch();
                 } catch (err) {
-                  console.log(err);
+                  console.log('Failed to save translation.');
                 }
               };
             };
           }
         } else {
           const errorMsg = document.getElementById('error-message');
-          errorMsg.textContent = 'No Korean Lyrics Found.';
+          errorMsg.setAttribute('style', 'white-space: pre;');
+          errorMsg.textContent =
+            "Sorry, we don't have Korean lyrics for" +
+            '\r\n' +
+            '"' +
+            title +
+            '"' +
+            '\r\n' +
+            'by' +
+            ' ' +
+            artistName +
+            '.';
         }
       })
       .then((res) => {
