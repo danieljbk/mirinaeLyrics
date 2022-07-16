@@ -54,19 +54,27 @@
           <div>
             <p id="error-message"></p>
             <p id="loading"></p>
+            <input
+              type="image"
+              id="add-translation"
+              src=""
+              width="150px"
+              alt=""
+            />
           </div>
-          <input
-            type="image"
-            id="add-translation"
-            src=""
-            width="150px"
-            alt=""
-          />
         </div>
 
         <div id="display-song-content">
           <div>
-            <img id="display-song-image" src="" height="500px" />
+            <img
+              id="display-song-image"
+              src=""
+              height="500px"
+              width="fit-content"
+            />
+            <div id="embedded-spotify-player-div">
+              <div id="embedded-spotify-player"></div>
+            </div>
             <p id="display-song-title"></p>
             <p id="display-artist-name"></p>
           </div>
@@ -120,9 +128,13 @@
 
     <!-- <footer contentEditable></footer> -->
 
-    <script type="module" src="./public/src/app.js" defer></script>
+    <noscript>Please enable JavaScript.</noscript>
+    <script type="module" src="./public/app.js" defer></script>
     <script src="./node_modules/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/inko@1.1.1/inko.min.js"></script>
-    <noscript>Please enable JavaScript.</noscript>
+    <script
+      src="https://open.spotify.com/embed-podcast/iframe-api/v1"
+      async
+    ></script>
   </body>
 </html>

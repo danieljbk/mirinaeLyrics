@@ -1,12 +1,24 @@
-require('dotenv').config();
-
-const express = require('express');
-const path = require('path');
+import express from 'express';
 const app = express();
-const Genius = require('genius-lyrics');
-const Client = new Genius.Client();
-const mongoose = require('mongoose');
-const cors = require('cors');
+import path from 'path';
+const __dirname = path.resolve();
+import mongoose from 'mongoose';
+import cors from 'cors';
+import livereload from 'livereload';
+import connectLivereload from 'connect-livereload';
+import dotenv from 'dotenv';
+dotenv.config();
+
+// open livereload high port and start to watch public directory for changes
+const liveReloadServer = livereload.createServer();
+liveReloadServer.watch(path.join(__dirname, 'public'));
+
+// ping browser on Express boot, once browser has reconnected and handshaken
+liveReloadServer.server.once('connection', () => {
+  setTimeout(() => {
+    liveReloadServer.refresh('/');
+  }, 100);
+});
 
 mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
 const db = mongoose.connection;
@@ -20,29 +32,26 @@ app.use(express.static(__dirname));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: 'http://localhost:8080' }));
+app.use(connectLivereload());
 
 // send the user to index html page in spite of the url
 app.get('/', (req, res) => {
-  res.sendFile(path.resolve(__dirname, './index.html'));
+  res.sendFile(path.resolve(__dirname, './public/index.html'));
 });
 
-app.get('/:songTitle', async (req, res) => {
-  try {
-    const searches = await Client.songs.search(req.params.songTitle);
-    const firstSong = searches[0];
-    const title = firstSong.title;
-    const artist = firstSong.artist.name;
-    const lyrics = await firstSong.lyrics();
-    const imageSrc = firstSong.image;
+import searchRouter from './src/routes/search.js';
+app.use('/search/', searchRouter);
 
-    res.send({ title, artist, lyrics, imageSrc });
-  } catch (err) {
-    res.send({});
-  }
-});
-
-const songsRouter = require('./src/routes/songs');
+import songsRouter from './src/routes/songs.js';
 app.use('/songs/', songsRouter);
 
+import spotifyRouter from './src/routes/spotify.js';
+app.use('/spotify/', spotifyRouter);
+
 const port = process.env.PORT || 8080;
-app.listen(port, () => console.log('Server has started on port ' + port));
+app.listen(port, () => {
+  if (process.send) {
+    process.send('online');
+  }
+  console.log('Server has started on port ' + port);
+});

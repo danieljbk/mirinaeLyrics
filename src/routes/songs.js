@@ -1,12 +1,12 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const Song = require('../models/song');
+import Song from '../models/song.js';
 
 router.get('/:koreanTitle', async (req, res) => {
   const koreanTitle = req.params.koreanTitle;
   try {
     const song = await Song.findOne({ koreanTitle });
-    if (!song) {
+    if (!song || song.koreanTitle !== koreanTitle) {
       return res.status(400).send();
     }
     res.status(201).json({
@@ -26,11 +26,10 @@ router.put('/:koreanTitle', async (req, res) => {
   });
   try {
     Song.findOne({ koreanTitle: newSong.koreanTitle }, async (err, oldSong) => {
-      console.log(err, oldSong);
       if (err || !oldSong) {
         // if the old song does not already exist in the database, save the new song
         try {
-          const newlySavedSong = await newSong.save();
+          await newSong.save();
           res.status(201).send();
         } catch (err) {
           res.status(400).send();
@@ -41,7 +40,7 @@ router.put('/:koreanTitle', async (req, res) => {
           oldSong.englishTitle = newSong.englishTitle;
           oldSong.englishLyrics = newSong.englishLyrics;
 
-          const newlySavedSong = await oldSong.save();
+          await oldSong.save();
           res.status(201).send();
         } catch (err) {
           res.status(400).send();
@@ -53,4 +52,4 @@ router.put('/:koreanTitle', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
