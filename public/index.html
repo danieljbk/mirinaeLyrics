@@ -8,10 +8,10 @@
     <link rel="stylesheet" href="./public/css/style.css" />
   </head>
 
-  <body>
+  <body onload="renderTemplates()">
     <div id="page-container">
       <div id="content">
-        <header>
+        <header id="header">
           <div id="header-content">
             <div id="website-name">
               <h1><a href="/">K-Pop Translator</a></h1>
@@ -25,7 +25,7 @@
                   id="searchbar"
                   type="text"
                   class="input-info"
-                  placeholder="What's the K-Pop song's title?"
+                  placeholder="What's your favorite K-Pop song?"
                   required
                 />
                 <button id="translate-button" class="button-75">
@@ -50,78 +50,108 @@
           </div>
         </header>
 
-        <div id="display-message-text">
-          <div>
-            <p id="error-message"></p>
-            <p id="loading"></p>
-            <input
-              type="image"
-              id="add-translation"
-              src=""
-              width="150px"
-              alt=""
-            />
-          </div>
-        </div>
-
-        <div id="display-song-content">
-          <div>
-            <img
-              id="display-song-image"
-              src=""
-              height="500px"
-              width="fit-content"
-            />
-            <div id="embedded-spotify-player-div">
-              <div id="embedded-spotify-player"></div>
+        <div id="front-page-content">
+          <div id="display-front-page">
+            <div id="top-row" class="front-page-row">
+              <div id="front-page-song-0"></div>
+              <div class="front-page-song-separator"></div>
+              <div id="front-page-song-1"></div>
+              <div class="front-page-song-separator"></div>
+              <div id="front-page-song-2"></div>
+              <div class="front-page-song-separator"></div>
+              <div id="front-page-song-3"></div>
             </div>
-            <p id="display-song-title"></p>
-            <p id="display-artist-name"></p>
-          </div>
-
-          <div id="song-info" class="flex">
-            <div id="korean-version">
-              <h3 id="korean-title"></h3>
-
-              <p id="korean-lyrics"></p>
-            </div>
-
-            <div class="splitter"></div>
-
-            <div id="english-version">
-              <h3 id="english-title"></h3>
-              <p id="english-lyrics"></p>
+            <div id="front-page-row-separator"></div>
+            <div id="bottom-row" class="front-page-row">
+              <div id="front-page-song-4"></div>
+              <div class="front-page-song-separator"></div>
+              <div id="front-page-song-5"></div>
+              <div class="front-page-song-separator"></div>
+              <div id="front-page-song-6"></div>
+              <div class="front-page-song-separator"></div>
+              <div id="front-page-song-7"></div>
             </div>
           </div>
         </div>
 
-        <div id="translation-area">
-          <div id="user-translated" class="flex">
-            <div id="original-song-info">
-              <h3 id="original-title"></h3>
-              <p id="original-artist-name"></p>
-              <p id="original-lyrics"></p>
-            </div>
-
-            <div class="splitter"></div>
-
-            <div id="translated-song-info">
+        <div id="message-content">
+          <div id="display-message-text">
+            <div>
+              <p id="error-message"></p>
+              <p id="loading"></p>
               <input
-                id="translated-title"
-                class="title-input"
-                placeholder="What's the Title in English?"
-                required
-                style="display: none"
+                type="image"
+                id="add-translation"
+                src=""
+                width="150px"
+                alt=""
               />
-              <textarea
-                id="translated-lyrics"
-                placeholder="Start your translation here!"
-                required
-                style="display: none"
-              ></textarea>
             </div>
           </div>
-          <div class="splitter"></div>
+        </div>
+
+        <div id="song-content">
+          <div id="display-song-content">
+            <div>
+              <img
+                id="display-song-image"
+                src=""
+                height="500px"
+                width="fit-content"
+              />
+              <div id="embedded-spotify-player-div">
+                <div id="embedded-spotify-player"></div>
+              </div>
+              <p id="display-song-title"></p>
+              <p id="display-artist-name"></p>
+            </div>
+
+            <div id="song-info" class="flex">
+              <div id="korean-version">
+                <h3 id="korean-title"></h3>
+
+                <p id="korean-lyrics"></p>
+              </div>
+
+              <div class="splitter"></div>
+
+              <div id="english-version">
+                <h3 id="english-title"></h3>
+                <p id="english-lyrics"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="translation-content">
+          <div id="display-translation-area">
+            <div id="user-translated" class="flex">
+              <div id="original-song-info">
+                <h3 id="original-title"></h3>
+                <p id="original-artist-name"></p>
+                <p id="original-lyrics"></p>
+              </div>
+
+              <div class="splitter"></div>
+
+              <div id="translated-song-info">
+                <input
+                  id="translated-title"
+                  class="title-input"
+                  placeholder="What's the Title in English?"
+                  required
+                  style="display: none"
+                />
+                <textarea
+                  id="translated-lyrics"
+                  placeholder="Start your translation here!"
+                  required
+                  style="display: none"
+                ></textarea>
+              </div>
+            </div>
+            <div class="splitter"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -136,5 +166,7 @@
       src="https://open.spotify.com/embed-podcast/iframe-api/v1"
       async
     ></script>
+    <script src="https://unpkg.com/mustache@latest"></script>
+    <script src="./public/renderTemplates.js"></script>
   </body>
 </html>

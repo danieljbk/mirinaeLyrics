@@ -5,14 +5,18 @@ const Client = new Genius.Client();
 
 router.get('/:songTitle', async (req, res) => {
   try {
-    const searches = await Client.songs.search(req.params.songTitle);
-    const firstSong = searches[0];
-    const title = firstSong.title.replace('(한국어 번역)', '').trimEnd();
-    const artist = firstSong.artist.name.replace('(한국어 번역)', '').trimEnd();
-    const lyrics = await firstSong.lyrics();
-    const imageSrc = firstSong.image;
+    const searchResults = await Client.songs.search(req.params.songTitle);
 
-    res.send({ title, artist, lyrics, imageSrc });
+    const songs = [];
+    for (let song of searchResults) {
+      songs.push({
+        title: song.title.replace('(한국어 번역)', '').trimEnd(),
+        artist: song.artist.name.replace('(한국어 번역)', '').trimEnd(),
+        lyrics: await song.lyrics(),
+        imageSrc: song._raw.song_art_image_url,
+      });
+    }
+    res.send(songs);
   } catch (err) {
     res.status(400).send();
   }
