@@ -2,22 +2,77 @@ import express from 'express';
 const router = express.Router();
 import Genius from 'genius-lyrics';
 const Client = new Genius.Client();
+import alibarray from 'alib-array';
+import condenseWhitespace from 'condense-whitespace';
 
-router.get('/:songTitle', async (req, res) => {
+router.get('/english', async (req, res) => {
   try {
-    const searchResults = await Client.songs.search(req.params.songTitle);
+    const searchResultsEnglish = await Client.songs.search(
+      req.query.searchTerm + ' english'
+    );
 
-    const songs = [];
-    for (let song of searchResults) {
-      songs.push({
-        title: song.title.replace('(한국어 번역)', '').trimEnd(),
-        artist: song.artist.name.replace('(한국어 번역)', '').trimEnd(),
-        lyrics: await song.lyrics(),
-        imageSrc: song._raw.song_art_image_url,
-      });
+    for (let song of searchResultsEnglish) {
+      // when searching for english lyrics, omit romanized lyrics
+      if (!song.title.toLowerCase().includes('romanize')) {
+        return res.send({
+          title: song.title,
+          artist: song.artist.name,
+          imageSrc: song._raw.song_art_image_url,
+          lyrics: await song.lyrics(),
+        });
+      }
     }
-    res.send(songs);
   } catch (err) {
+    console.log(err);
+    res.status(400).send();
+  }
+});
+
+router.get('/multiple', async (req, res) => {
+  try {
+    const searchResultsKorean = await Client.songs.search(
+      `${req.query.searchTerm} korean`
+    );
+    const searchResultsOriginal = await Client.songs.search(
+      req.query.searchTerm
+    );
+    const allSearchResults = [
+      searchResultsKorean.reverse(),
+      searchResultsOriginal.reverse(),
+    ];
+
+    let count = 0;
+    const songs = [];
+    for (let searchResult of allSearchResults) {
+      for (let song of searchResult) {
+        if (count < 8) {
+          songs.push({
+            title: condenseWhitespace(
+              song.title
+                .replace('(한국어 번역)', '')
+                .trimEnd()
+                .replace('(Korean Version)', '')
+            ),
+            artist: condenseWhitespace(
+              song.artist.name.replace('(한국어 번역)', '')
+            ),
+            imageSrc: song._raw.song_art_image_url,
+            lyrics: await song.lyrics(),
+          });
+          count += 1;
+        }
+      }
+    }
+
+    const uniqueSongs = [];
+    for (let song of songs) {
+      if (!alibarray().contains(uniqueSongs, song)) {
+        uniqueSongs.push(song);
+      }
+    }
+    res.send(uniqueSongs);
+  } catch (err) {
+    console.log(err);
     res.status(400).send();
   }
 });

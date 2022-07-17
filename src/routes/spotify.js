@@ -51,6 +51,7 @@ router.get('/html', async (req, res) => {
         for (let item of songResults) {
           if (item.artists[0].name + ' ' + item.name === bestMatch) {
             const songUrl = item.external_urls.spotify;
+            const songUri = item.uri;
 
             try {
               await axios
@@ -59,7 +60,7 @@ router.get('/html', async (req, res) => {
                 })
                 .then((result) => result.data)
                 .then((data) => {
-                  return res.json({ html: data.html });
+                  return res.json({ html: data.html, songUri });
                 });
             } catch (err) {
               return res.status(400).send();
@@ -75,7 +76,7 @@ router.get('/html', async (req, res) => {
 
       // search the spotify api with the track namespotifyApi
       spotifyApi
-        .searchTracks(koreanTitle, {
+        .searchTracks('title:' + koreanTitle, {
           limit: 25,
           offset: 0,
         })
