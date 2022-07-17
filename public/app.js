@@ -117,7 +117,6 @@ const submitSearch = () => {
                   rendered;
               } else {
                 const song = songs[i];
-
                 const rendered = Mustache.render(template, {
                   number: i.toString(),
                   songTitle:

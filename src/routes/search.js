@@ -46,20 +46,25 @@ router.get('/multiple', async (req, res) => {
     for (let searchResult of allSearchResults) {
       for (let song of searchResult) {
         if (count < 8) {
-          songs.push({
-            title: condenseWhitespace(
-              song.title
-                .replace('(한국어 번역)', '')
-                .trimEnd()
-                .replace('(Korean Version)', '')
-            ),
-            artist: condenseWhitespace(
-              song.artist.name.replace('(한국어 번역)', '')
-            ),
-            imageSrc: song._raw.song_art_image_url,
-            lyrics: await song.lyrics(),
-          });
-          count += 1;
+          const imageSrc = song._raw.song_art_image_url;
+          const geniusDefaultImageUrl =
+            'https://assets.genius.com/images/default_cover_image.png';
+          if (!imageSrc.includes(geniusDefaultImageUrl)) {
+            songs.push({
+              title: condenseWhitespace(
+                song.title
+                  .replace('(한국어 번역)', '')
+                  .trimEnd()
+                  .replace('(Korean Version)', '')
+              ),
+              artist: condenseWhitespace(
+                song.artist.name.replace('(한국어 번역)', '')
+              ),
+              imageSrc,
+              lyrics: await song.lyrics(),
+            });
+            count += 1;
+          }
         }
       }
     }
