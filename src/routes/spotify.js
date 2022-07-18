@@ -63,6 +63,7 @@ router.get('/html', async (req, res) => {
                   return res.json({ html: data.html, songUri });
                 });
             } catch (err) {
+              console.log(err);
               return res.status(400).send();
             }
             break;

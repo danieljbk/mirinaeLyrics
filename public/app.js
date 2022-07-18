@@ -9,7 +9,7 @@ const websiteName = document.getElementById('website-name');
 const magnifyingGlass = document.getElementById('magnifying-glass');
 const searchDiv = document.getElementById('search');
 const searchbar = document.getElementById('searchbar');
-const loading = document.getElementById('loading');
+const loadingText = document.getElementById('loading');
 const songTitle = document.getElementById('display-song-title');
 const artist = document.getElementById('display-artist-name');
 const koreanTitleText = document.getElementById('korean-title');
@@ -44,7 +44,7 @@ frontPageAreaDiv.style.display = 'none';
 topButtons.style.display = 'none';
 
 const resetElements = () => {
-  loading.textContent = '';
+  loadingText.textContent = '';
   songTitle.textContent = '';
   artist.textContent = '';
   koreanTitleText.textContent = '';
@@ -54,7 +54,6 @@ const resetElements = () => {
   songImage.src = './public/images/transparent.png';
   errorMsg.textContent = '';
   addTranslationButton.src = './public/images/transparent.png';
-  // translationTitle.style.display = 'none';
   translationBody.style.display = 'none';
   originalTitle.textContent = '';
   originalLyrics.textContent = '';
@@ -73,6 +72,7 @@ const submitSearch = () => {
     songContentDiv.style.display = 'none';
     translationAreaDiv.style.display = 'none';
     frontPageAreaDiv.style.display = 'none';
+    topButtons.style.display = 'none';
 
     let root = document.documentElement;
     root.style.setProperty('--header-height', '12.5vh'); // collapse header
@@ -80,7 +80,7 @@ const submitSearch = () => {
     header.style.borderBottomColor = '#ffffff';
     // document.body.style.background = '#1d1d1d';
 
-    loading.textContent = 'Loading...';
+    loadingText.textContent = 'Searching';
     websiteName.style.paddingTop = '2%';
 
     const noKoreanLyrics = () => {
@@ -174,6 +174,17 @@ const submitSearch = () => {
               if (koreanLyrics) {
                 console.log('collecting english lyrics...');
 
+                messageDiv.style.display = 'grid';
+                songContentDiv.style.display = 'none';
+                translationAreaDiv.style.display = 'none';
+                frontPageAreaDiv.style.display = 'none';
+                searchDiv.style.display = 'none';
+                topButtons.style.display = 'none';
+
+                addTranslationButton.src = './public/images/transparent.png';
+                errorMsg.textContent = '';
+                loadingText.textContent = 'Loading';
+
                 let englishLyrics;
 
                 // check if user-generated song data is in database
@@ -249,12 +260,13 @@ const submitSearch = () => {
 
                 // if (englishLyrics && englishLyricsDoesNotContainKorean) {
                 if (englishLyrics) {
-                  loading.textContent = '';
+                  loadingText.textContent = '';
 
                   messageDiv.style.display = 'none';
                   songContentDiv.style.display = 'block';
                   translationAreaDiv.style.display = 'none';
                   frontPageAreaDiv.style.display = 'none';
+                  searchDiv.style.display = 'none';
                   topButtons.style.display = 'flex';
 
                   console.log('embedding Spotify player...');
@@ -312,6 +324,7 @@ const submitSearch = () => {
                     songContentDiv.style.display = 'none';
                     translationAreaDiv.style.display = 'grid';
                     frontPageAreaDiv.style.display = 'none';
+                    topButtons.style.display = 'flex';
 
                     originalTitle.textContent = title;
                     originalArtistName.textContent = artistName;
@@ -332,6 +345,8 @@ const submitSearch = () => {
                       songContentDiv.style.display = 'block';
                       translationAreaDiv.style.display = 'none';
                       frontPageAreaDiv.style.display = 'none';
+                      searchDiv.style.display = 'none';
+                      topButtons.style.display = 'flex';
 
                       topLeftButton.src = './public/images/back.png';
                       topRightButton.src = './public/images/pencil.png';
@@ -341,6 +356,7 @@ const submitSearch = () => {
                         songContentDiv.style.display = 'none';
                         translationAreaDiv.style.display = 'none';
                         frontPageAreaDiv.style.display = 'block';
+                        searchDiv.style.display = 'flex';
                         topButtons.style.display = 'none';
 
                         topLeftButton.src = './public/images/transparent.png';
@@ -351,6 +367,18 @@ const submitSearch = () => {
 
                     topRightButton.onclick = async () => {
                       console.log('submitting translation...');
+
+                      messageDiv.style.display = 'grid';
+                      songContentDiv.style.display = 'none';
+                      translationAreaDiv.style.display = 'none';
+                      frontPageAreaDiv.style.display = 'none';
+                      searchDiv.style.display = 'none';
+                      topButtons.style.display = 'none';
+
+                      addTranslationButton.src =
+                        './public/images/transparent.png';
+                      errorMsg.textContent = '';
+                      loadingText.textContent = 'Saving';
 
                       try {
                         await axios.put(backendUrl + 'songs' + '/' + title, {
@@ -379,6 +407,8 @@ const submitSearch = () => {
                     songContentDiv.style.display = 'none';
                     translationAreaDiv.style.display = 'none';
                     frontPageAreaDiv.style.display = 'block';
+                    searchDiv.style.display = 'flex';
+                    topButtons.style.display = 'none';
 
                     topLeftButton.src = './public/images/transparent.png';
                     topRightButton.src = './public/images/transparent.png';
@@ -392,9 +422,10 @@ const submitSearch = () => {
                   songContentDiv.style.display = 'none';
                   translationAreaDiv.style.display = 'none';
                   frontPageAreaDiv.style.display = 'none';
+                  searchDiv.style.display = 'none';
                   topButtons.style.display = 'flex';
 
-                  loading.textContent = '';
+                  loadingText.textContent = '';
                   errorMsg.setAttribute('style', 'white-space: pre;');
                   errorMsg.textContent =
                     'Nobody has translated' +
@@ -420,6 +451,7 @@ const submitSearch = () => {
                     translationAreaDiv.style.display = 'none';
                     frontPageAreaDiv.style.display = 'block';
                     searchDiv.style.display = 'flex';
+                    topButtons.style.display = 'flex';
 
                     topLeftButton.src = './public/images/transparent.png';
                     topRightButton.src = './public/images/transparent.png';
@@ -435,6 +467,8 @@ const submitSearch = () => {
                     songContentDiv.style.display = 'none';
                     translationAreaDiv.style.display = 'grid';
                     frontPageAreaDiv.style.display = 'none';
+                    searchDiv.style.display = 'none';
+                    topButtons.style.display = 'flex';
 
                     searchDiv.style.display = 'none';
 
@@ -459,6 +493,8 @@ const submitSearch = () => {
                       songContentDiv.style.display = 'none';
                       translationAreaDiv.style.display = 'none';
                       frontPageAreaDiv.style.display = 'none';
+                      searchDiv.style.display = 'none';
+                      topButtons.style.display = 'flex';
 
                       topLeftButton.src = './public/images/back.png';
                       topRightButton.src = './public/images/transparent.png';
@@ -469,6 +505,7 @@ const submitSearch = () => {
                         translationAreaDiv.style.display = 'none';
                         frontPageAreaDiv.style.display = 'block';
                         searchDiv.style.display = 'flex';
+                        topButtons.style.display = 'none';
 
                         topLeftButton.src = './public/images/transparent.png';
                         topRightButton.src = './public/images/transparent.png';
@@ -477,6 +514,19 @@ const submitSearch = () => {
 
                     topRightButton.onclick = async () => {
                       console.log('submitting translation...');
+
+                      messageDiv.style.display = 'grid';
+                      songContentDiv.style.display = 'none';
+                      translationAreaDiv.style.display = 'none';
+                      frontPageAreaDiv.style.display = 'none';
+                      searchDiv.style.display = 'none';
+                      topButtons.style.display = 'none';
+
+                      addTranslationButton.src =
+                        './public/images/transparent.png';
+                      errorMsg.textContent = '';
+                      loadingText.textContent = 'Saving';
+
                       try {
                         await axios.put(backendUrl + 'songs' + '/' + title, {
                           englishLyrics: translationBody.value,
@@ -508,10 +558,12 @@ const submitSearch = () => {
                 songContentDiv.style.display = 'none';
                 translationAreaDiv.style.display = 'none';
                 frontPageAreaDiv.style.display = 'none';
+                searchDiv.style.display = 'none';
+                topButtons.style.display = 'none';
 
                 addTranslationButton.src = './public/images/transparent.png';
                 errorMsg.textContent = '';
-                loading.textContent = 'Loading...';
+                loadingText.textContent = 'Loading';
 
                 main(i);
               };
@@ -525,7 +577,7 @@ const submitSearch = () => {
         noKoreanLyrics();
       })
       .then((res) => {
-        loading.textContent = '';
+        loadingText.textContent = '';
       });
   }
 };
@@ -542,3 +594,16 @@ searchbar.onkeydown = (event) => {
     submitSearch();
   }
 };
+
+// make the text for loading dynamic
+setInterval(() => {
+  const currentLoadingText = loadingText.textContent;
+
+  if (currentLoadingText) {
+    if (currentLoadingText.split('.').length - 1 < 3) {
+      loadingText.textContent += '.';
+    } else {
+      loadingText.textContent = currentLoadingText.replace('...', '');
+    }
+  }
+}, 333);

@@ -13,6 +13,7 @@ router.get('/:koreanTitle', async (req, res) => {
       englishLyrics: song.englishLyrics,
     });
   } catch (e) {
+    console.log(err);
     res.status(400).send();
   }
 });
@@ -45,6 +46,7 @@ router.put('/:koreanTitle', async (req, res) => {
       }
     });
   } catch (err) {
+    console.log(err);
     res.status(400).send();
   }
 });
