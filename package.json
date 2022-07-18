@@ -12,6 +12,8 @@
     "alib-array": "^1.4.0",
     "array-union": "^3.0.1",
     "axios": "^0.27.2",
+    "bad-words": "^3.0.4",
+    "badwords-ko": "^0.0.6",
     "condense-whitespace": "^3.0.0",
     "connect-livereload": "^0.6.1",
     "cors": "^2.8.5",

@@ -1,9 +1,16 @@
 import express from 'express';
 const router = express.Router();
+
 import Genius from 'genius-lyrics';
 const Client = new Genius.Client();
+
 import alibarray from 'alib-array';
 import condenseWhitespace from 'condense-whitespace';
+
+import EnglishFilter from 'bad-words';
+import KoreanFilter from 'badwords-ko';
+const englishFilter = new EnglishFilter();
+const koreanFilter = new KoreanFilter();
 
 router.get('/english', async (req, res) => {
   try {
@@ -18,7 +25,13 @@ router.get('/english', async (req, res) => {
           title: song.title,
           artist: song.artist.name,
           imageSrc: song._raw.song_art_image_url,
-          lyrics: await song.lyrics(),
+          lyrics: englishFilter
+            .clean(
+              koreanFilter.clean(
+                (await song.lyrics()).replaceAll('\n', ' !@#$%^&*() ') // convert to identifiable string
+              )
+            )
+            .replaceAll(' !@#$%^&*() ', '\r\n'), // convert identifiable string to html-readable format
         });
       }
     }
@@ -62,7 +75,13 @@ router.get('/multiple', async (req, res) => {
                   song.artist.name.replace('(한국어 번역)', '')
                 ),
                 imageSrc,
-                lyrics: await song.lyrics(),
+                lyrics: englishFilter
+                  .clean(
+                    koreanFilter.clean(
+                      (await song.lyrics()).replaceAll('\n', ' !@#$%^&*() ') // convert to identifiable string
+                    )
+                  )
+                  .replaceAll(' !@#$%^&*() ', '\r\n'), // convert identifiable string to html-readable format
               });
               count += 1;
             }

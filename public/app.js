@@ -291,16 +291,11 @@ const submitSearch = () => {
                   artist.textContent = artistName;
                   koreanTitleText.textContent = 'Original';
                   koreanLyricsText.setAttribute('style', 'white-space: pre;');
-                  koreanLyricsText.textContent = koreanLyrics.replaceAll(
-                    '\n',
-                    '\r\n'
-                  );
+                  koreanLyricsText.textContent = koreanLyrics;
                   englishTitleText.textContent = 'Translated';
                   englishLyricsText.setAttribute('style', 'white-space: pre;');
-                  englishLyricsText.textContent = englishLyrics.replaceAll(
-                    '\n',
-                    '\r\n'
-                  );
+                  englishLyricsText.textContent = englishLyrics;
+
                   if (koreanVersion.offsetWidth > englishVersion.offsetWidth) {
                     englishVersion.style.width =
                       koreanVersion.offsetWidth + 'px';
@@ -327,10 +322,7 @@ const submitSearch = () => {
                     translationBody.value = englishLyrics;
 
                     originalLyrics.setAttribute('style', 'white-space: pre;');
-                    originalLyrics.textContent = koreanLyrics.replaceAll(
-                      '\n',
-                      '\r\n'
-                    );
+                    originalLyrics.textContent = koreanLyrics;
 
                     topLeftButton.src = './public/images/back.png';
                     topRightButton.src = './public/images/save-file.png';
