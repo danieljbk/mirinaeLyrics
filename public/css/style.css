@@ -111,8 +111,8 @@ header {
 
 #header-content-left {
   width: 30vw;
-  padding-top: 1%;
-  padding-bottom: 2%;
+  display: flex;
+  flex-direction: var(--header-flex-direction);
 }
 
 #header-content-middle {
@@ -125,11 +125,15 @@ header {
 
 #website-name {
   align-items: center;
+  padding-top: 7.5px;
+  font-size: 30px;
 }
 
 #website-name-subtext {
   padding-top: 7.5px;
   margin: 0;
+  padding-bottom: 4%;
+  font-size: 20px;
 }
 
 #top-buttons {
@@ -372,4 +376,9 @@ header {
 
 #add-translation {
   padding-top: 50px;
+  padding-bottom: 5vw;
+}
+
+#logo {
+  height: 20vh;
 }

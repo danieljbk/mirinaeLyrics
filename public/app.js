@@ -6,6 +6,7 @@ const backendUrl = 'https://kpoptranslator.herokuapp.com' + '/';
 // const backendUrl = 'http://localhost:8080' + '/';
 
 const websiteName = document.getElementById('website-name');
+const websiteNameSubtext = document.getElementById('website-name-subtext');
 const magnifyingGlass = document.getElementById('magnifying-glass');
 const searchDiv = document.getElementById('search');
 const searchbar = document.getElementById('searchbar');
@@ -33,6 +34,7 @@ const topLeftButton = document.getElementById('top-left-button');
 const spotifyPlayer = document.getElementById('embedded-spotify-player');
 
 const header = document.getElementById('header');
+const logo = document.getElementById('logo');
 const songContentDiv = document.getElementById('display-song-content');
 const messageDiv = document.getElementById('display-message-text');
 const translationAreaDiv = document.getElementById('display-translation-area');
@@ -53,7 +55,7 @@ const resetElements = () => {
   englishLyricsText.textContent = '';
   songImage.src = './public/images/transparent.png';
   errorMsg.textContent = '';
-  addTranslationButton.src = './public/images/transparent.png';
+  addTranslationButton.src = '';
   translationBody.style.display = 'none';
   originalTitle.textContent = '';
   originalLyrics.textContent = '';
@@ -74,14 +76,21 @@ const submitSearch = () => {
     frontPageAreaDiv.style.display = 'none';
     topButtons.style.display = 'none';
 
+    const headerHeight = 12.5;
     let root = document.documentElement;
-    root.style.setProperty('--header-height', '12.5vh'); // collapse header
+    root.style.setProperty('--header-height', headerHeight + 'vh'); // collapse header
     root.style.setProperty('--header-flex-direction', 'row');
     header.style.borderBottomColor = '#ffffff';
     // document.body.style.background = '#1d1d1d';
 
     loadingText.textContent = 'Searching';
-    websiteName.style.paddingTop = '2%';
+
+    websiteName.style.display = 'none';
+    websiteNameSubtext.style.display = 'none';
+    logo.style.height = 0.66 * headerHeight + 'vh';
+    logo.style.display = 'block';
+    logo.style.paddingLeft = '7.5vw';
+    logo.src = './public/images/logo.png';
 
     const noKoreanLyrics = () => {
       console.log('missing korean lyrics...');
@@ -181,7 +190,7 @@ const submitSearch = () => {
                 searchDiv.style.display = 'none';
                 topButtons.style.display = 'none';
 
-                addTranslationButton.src = './public/images/transparent.png';
+                addTranslationButton.src = '';
                 errorMsg.textContent = '';
                 loadingText.textContent = 'Loading';
 
@@ -266,7 +275,7 @@ const submitSearch = () => {
                   songContentDiv.style.display = 'block';
                   translationAreaDiv.style.display = 'none';
                   frontPageAreaDiv.style.display = 'none';
-                  searchDiv.style.display = 'none';
+                  searchDiv.style.display = 'flex';
                   topButtons.style.display = 'flex';
 
                   console.log('embedding Spotify player...');
@@ -345,7 +354,7 @@ const submitSearch = () => {
                       songContentDiv.style.display = 'block';
                       translationAreaDiv.style.display = 'none';
                       frontPageAreaDiv.style.display = 'none';
-                      searchDiv.style.display = 'none';
+                      searchDiv.style.display = 'flex';
                       topButtons.style.display = 'flex';
 
                       topLeftButton.src = './public/images/back.png';
@@ -375,8 +384,7 @@ const submitSearch = () => {
                       searchDiv.style.display = 'none';
                       topButtons.style.display = 'none';
 
-                      addTranslationButton.src =
-                        './public/images/transparent.png';
+                      addTranslationButton.src = '';
                       errorMsg.textContent = '';
                       loadingText.textContent = 'Saving';
 
@@ -388,8 +396,7 @@ const submitSearch = () => {
                         resetElements();
 
                         searchbar.value = userInput;
-                        searchbar.setAttribute('type', 'text');
-                        magnifyingGlass.style.visibility = 'visible';
+                        searchDiv.style.display = 'flex';
 
                         main(i);
                       } catch (err) {
@@ -422,7 +429,7 @@ const submitSearch = () => {
                   songContentDiv.style.display = 'none';
                   translationAreaDiv.style.display = 'none';
                   frontPageAreaDiv.style.display = 'none';
-                  searchDiv.style.display = 'none';
+                  searchDiv.style.display = 'flex';
                   topButtons.style.display = 'flex';
 
                   loadingText.textContent = '';
@@ -493,7 +500,7 @@ const submitSearch = () => {
                       songContentDiv.style.display = 'none';
                       translationAreaDiv.style.display = 'none';
                       frontPageAreaDiv.style.display = 'none';
-                      searchDiv.style.display = 'none';
+                      searchDiv.style.display = 'flex';
                       topButtons.style.display = 'flex';
 
                       topLeftButton.src = './public/images/back.png';
@@ -522,8 +529,7 @@ const submitSearch = () => {
                       searchDiv.style.display = 'none';
                       topButtons.style.display = 'none';
 
-                      addTranslationButton.src =
-                        './public/images/transparent.png';
+                      addTranslationButton.src = '';
                       errorMsg.textContent = '';
                       loadingText.textContent = 'Saving';
 
@@ -561,7 +567,7 @@ const submitSearch = () => {
                 searchDiv.style.display = 'none';
                 topButtons.style.display = 'none';
 
-                addTranslationButton.src = './public/images/transparent.png';
+                addTranslationButton.src = '';
                 errorMsg.textContent = '';
                 loadingText.textContent = 'Loading';
 
