@@ -5,8 +5,7 @@ let inko = new Inko(); // korean -> english characters and vice versa
 const backendUrl = 'https://kpoptranslator.herokuapp.com' + '/';
 // const backendUrl = 'http://localhost:8080' + '/';
 
-const websiteName = document.getElementById('website-name');
-const websiteNameSubtext = document.getElementById('website-name-subtext');
+// const websiteNameSubtext = document.getElementById('website-name-subtext');
 const magnifyingGlass = document.getElementById('magnifying-glass');
 const searchDiv = document.getElementById('search');
 const searchbar = document.getElementById('searchbar');
@@ -85,8 +84,7 @@ const submitSearch = () => {
 
     loadingText.textContent = 'Searching';
 
-    websiteName.style.display = 'none';
-    websiteNameSubtext.style.display = 'none';
+    // websiteNameSubtext.style.display = 'none';
     logo.style.height = 0.66 * headerHeight + 'vh';
     logo.style.display = 'block';
     logo.style.paddingLeft = '7.5vw';

@@ -123,17 +123,12 @@ header {
   width: 30vw;
 }
 
-#website-name {
-  align-items: center;
-  padding-top: 7.5px;
-  font-size: 25px;
-}
-
 #website-name-subtext {
-  padding-top: 7.5px;
-  margin: 0;
+  padding-top: 4%;
   padding-bottom: 4%;
+  margin: 0;
   font-size: 20px;
+  align-self: center;
 }
 
 #top-buttons {
@@ -381,4 +376,6 @@ header {
 
 #logo {
   height: 18vh;
+  padding-top: 5%;
+  padding-bottom: 5%;
 }
