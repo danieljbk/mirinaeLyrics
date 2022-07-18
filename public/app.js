@@ -439,7 +439,7 @@ const submitSearch = () => {
                     artistName +
                     '.' +
                     '\r\n\r\n' +
-                    'Do it yourself?';
+                    'Translate it yourself?';
 
                   // this code repeats down below. It is slightly different as it pulls existing text data.
                   topLeftButton.src = './public/images/back.png';
@@ -606,4 +606,4 @@ setInterval(() => {
       loadingText.textContent = currentLoadingText.replace('...', '');
     }
   }
-}, 333);
+}, 350);

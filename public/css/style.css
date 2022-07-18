@@ -235,6 +235,11 @@ header {
   max-width: 50vw;
 }
 
+#english-title,
+#korean-title {
+  padding-bottom: 20px;
+}
+
 #display-song-image {
   padding-top: 2.5vh;
   padding-bottom: 7vh;
