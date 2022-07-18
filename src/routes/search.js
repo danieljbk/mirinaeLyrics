@@ -79,7 +79,6 @@ router.get('/multiple', async (req, res) => {
     }
     res.send(uniqueSongs);
   } catch (err) {
-    console.log(err);
     res.status(400).send();
   }
 });

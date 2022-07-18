@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 
 const songSchema = new mongoose.Schema({
   koreanTitle: { type: String, required: true },
-  englishTitle: { type: String, required: true },
   englishLyrics: { type: String, required: true },
   createdAt: {
     type: Date,

@@ -13,40 +13,28 @@
       <div id="content">
         <header id="header">
           <div id="header-content">
-            <div id="website-name">
-              <h1><a href="/">K-Pop Translator</a></h1>
-              <p style="margin-bottom: 5px">
-                <a href="/"> Created by Joonbeom Kwon & Kai Seo</a>
-              </p>
+            <div id="header-content-left">
+              <div id="website-name">
+                <h1><a href="/">K-Pop Translator</a></h1>
+                <p id="website-name-subtext">
+                  <a href="/"> Created by Joonbeom Kwon & Kai Seo</a>
+                </p>
+              </div>
             </div>
-            <div>
-              <div class="flex">
+            <div id="header-content-middle">
+              <div id="search">
+                <img id="magnifying-glass" src="./public/images/search.png" />
                 <input
                   id="searchbar"
                   type="text"
                   class="input-info"
                   placeholder="What's your favorite K-Pop song?"
                   required
+                  autofocus
                 />
-                <button id="translate-button" class="button-75">
-                  <span>Translate</span>
-                </button>
               </div>
             </div>
-            <input
-              type="image"
-              id="submit-translation"
-              src=""
-              alt=""
-              width="70px"
-            />
-            <input
-              type="image"
-              id="edit-song-info"
-              src=""
-              alt=""
-              width="60px"
-            />
+            <div id="header-content-right"></div>
           </div>
         </header>
 
@@ -72,6 +60,12 @@
               <div id="front-page-song-7"></div>
             </div>
           </div>
+        </div>
+
+        <div id="top-buttons">
+          <input type="image" id="top-left-button" src="" alt="" />
+          <div id="top-button-separator"></div>
+          <input type="image" id="top-right-button" src="" alt="" />
         </div>
 
         <div id="message-content">
@@ -125,29 +119,22 @@
 
         <div id="translation-content">
           <div id="display-translation-area">
-            <div id="user-translated" class="flex">
-              <div id="original-song-info">
-                <h3 id="original-title"></h3>
-                <p id="original-artist-name"></p>
-                <p id="original-lyrics"></p>
-              </div>
-
-              <div class="splitter"></div>
-
-              <div id="translated-song-info">
-                <input
-                  id="translated-title"
-                  class="title-input"
-                  placeholder="What's the Title in English?"
-                  required
-                  style="display: none"
-                />
-                <textarea
-                  id="translated-lyrics"
-                  placeholder="Start your translation here!"
-                  required
-                  style="display: none"
-                ></textarea>
+            <div id="user-translated">
+              <h3 id="original-title"></h3>
+              <p id="original-artist-name"></p>
+              <div id="both-lyrics" class="flex">
+                <div id="left-lyrics" class="half-screen-width">
+                  <p id="original-lyrics"></p>
+                </div>
+                <div id="right-lyrics" class="half-screen-width">
+                  <textarea
+                    id="translated-lyrics"
+                    placeholder="Start your translation here!"
+                    required
+                    style="display: none"
+                    autofocus
+                  ></textarea>
+                </div>
               </div>
             </div>
             <div class="splitter"></div>

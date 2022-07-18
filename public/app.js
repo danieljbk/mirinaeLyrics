@@ -5,9 +5,10 @@ let inko = new Inko(); // korean -> english characters and vice versa
 const backendUrl = 'https://kpoptranslator.herokuapp.com' + '/';
 // const backendUrl = 'http://localhost:8080' + '/';
 
-const translateButton = document.getElementById('translate-button');
+const websiteName = document.getElementById('website-name');
+const magnifyingGlass = document.getElementById('magnifying-glass');
+const searchDiv = document.getElementById('search');
 const searchbar = document.getElementById('searchbar');
-const submitSearchButton = document.getElementById('translate-button');
 const loading = document.getElementById('loading');
 const songTitle = document.getElementById('display-song-title');
 const artist = document.getElementById('display-artist-name');
@@ -18,7 +19,6 @@ const englishLyricsText = document.getElementById('english-lyrics');
 const songImage = document.getElementById('display-song-image');
 const errorMsg = document.getElementById('error-message');
 const addTranslationButton = document.getElementById('add-translation');
-const translationTitle = document.getElementById('translated-title');
 const translationBody = document.getElementById('translated-lyrics');
 const koreanVersion = document.getElementById('korean-version');
 const englishVersion = document.getElementById('english-version');
@@ -27,10 +27,12 @@ const originalLyrics = document.getElementById('original-lyrics');
 const originalArtistName = document.getElementById('original-artist-name');
 const originalSongInfo = document.getElementById('original-song-info');
 const translatedSongInfo = document.getElementById('translated-song-info');
-const translationSubmitButton = document.getElementById('submit-translation');
-const editSongInfoButton = document.getElementById('edit-song-info');
+const topButtons = document.getElementById('top-buttons');
+const topRightButton = document.getElementById('top-right-button');
+const topLeftButton = document.getElementById('top-left-button');
 const spotifyPlayer = document.getElementById('embedded-spotify-player');
 
+const header = document.getElementById('header');
 const songContentDiv = document.getElementById('display-song-content');
 const messageDiv = document.getElementById('display-message-text');
 const translationAreaDiv = document.getElementById('display-translation-area');
@@ -39,6 +41,7 @@ messageDiv.style.display = 'none';
 songContentDiv.style.display = 'none';
 translationAreaDiv.style.display = 'none';
 frontPageAreaDiv.style.display = 'none';
+topButtons.style.display = 'none';
 
 const resetElements = () => {
   loading.textContent = '';
@@ -48,16 +51,16 @@ const resetElements = () => {
   koreanLyricsText.textContent = '';
   englishTitleText.textContent = '';
   englishLyricsText.textContent = '';
-  songImage.src = '';
+  songImage.src = './public/images/transparent.png';
   errorMsg.textContent = '';
-  addTranslationButton.src = '';
-  translationTitle.style.display = 'none';
+  addTranslationButton.src = './public/images/transparent.png';
+  // translationTitle.style.display = 'none';
   translationBody.style.display = 'none';
   originalTitle.textContent = '';
   originalLyrics.textContent = '';
   originalArtistName.textContent = '';
-  translationSubmitButton.src = '';
-  editSongInfoButton.src = '';
+  topRightButton.src = './public/images/transparent.png';
+  topLeftButton.src = './public/images/transparent.png';
   spotifyPlayer.innerHTML = '';
 };
 
@@ -73,9 +76,12 @@ const submitSearch = () => {
 
     let root = document.documentElement;
     root.style.setProperty('--header-height', '12.5vh'); // collapse header
-    document.body.style.background = '#1d1d1d';
+    root.style.setProperty('--header-flex-direction', 'row');
+    header.style.borderBottomColor = '#ffffff';
+    // document.body.style.background = '#1d1d1d';
+
     loading.textContent = 'Loading...';
-    submitSearchButton.disabled = true;
+    websiteName.style.paddingTop = '2%';
 
     const noKoreanLyrics = () => {
       console.log('missing korean lyrics...');
@@ -87,8 +93,7 @@ const submitSearch = () => {
 
       const errorMsg = document.getElementById('error-message');
       errorMsg.setAttribute('style', 'white-space: pre;');
-      errorMsg.textContent =
-        "Sorry, we couldn't find" + '\r\n' + '"' + userInput + '.' + '"';
+      errorMsg.textContent = 'No results for ' + '"' + userInput + '.' + '"';
     };
 
     console.log('retrieving search results...');
@@ -141,7 +146,6 @@ const submitSearch = () => {
           .then((res) => {
             const main = async (i) => {
               const selectedSongData = songs[i];
-              console.log(selectedSongData);
 
               const title = selectedSongData.title;
               const artistName = selectedSongData.artist;
@@ -170,7 +174,6 @@ const submitSearch = () => {
               if (koreanLyrics) {
                 console.log('collecting english lyrics...');
 
-                let englishTitle;
                 let englishLyrics;
 
                 // check if user-generated song data is in database
@@ -179,7 +182,6 @@ const submitSearch = () => {
                     .get(backendUrl + 'songs' + '/' + title)
                     .then((res) => res.data)
                     .then(async (existingSong) => {
-                      englishTitle = existingSong.englishTitle;
                       englishLyrics = existingSong.englishLyrics;
                     });
                 } catch (err) {
@@ -253,6 +255,7 @@ const submitSearch = () => {
                   songContentDiv.style.display = 'block';
                   translationAreaDiv.style.display = 'none';
                   frontPageAreaDiv.style.display = 'none';
+                  topButtons.style.display = 'flex';
 
                   console.log('embedding Spotify player...');
 
@@ -263,6 +266,7 @@ const submitSearch = () => {
                   songImage.onload = () => {
                     spotifyPlayer.style.width = songImage.width * 0.8 + 'px';
                   };
+
                   await axios
                     .get(backendUrl + 'spotify' + '/' + 'html', {
                       params: {
@@ -278,7 +282,7 @@ const submitSearch = () => {
                       // couldn't find the song on Spotify.
                       spotifyPlayer.style.display = 'none';
                       songTitle.style.marginTop = '0px';
-                      console.log(err);
+                      console.log('failed to load music from Spotify.');
                     });
 
                   console.log('displaying song content...');
@@ -305,16 +309,10 @@ const submitSearch = () => {
                       englishVersion.offsetWidth + 'px';
                   }
 
-                  // this code repeats down below for translationSubmitButton. It is slightly different as it pulls existing text data.
-                  editSongInfoButton.src = 'public/images/edit.png';
-                  editSongInfoButton.onclick = () => {
+                  const editExistingTranslation = () => {
                     console.log('switching to edit translation mode...');
 
-                    resetElements();
-
-                    searchbar.setAttribute('type', 'hidden');
-                    submitSearchButton.style.visibility = 'hidden';
-
+                    searchDiv.style.display = 'none';
                     messageDiv.style.display = 'none';
                     songContentDiv.style.display = 'none';
                     translationAreaDiv.style.display = 'grid';
@@ -322,11 +320,10 @@ const submitSearch = () => {
 
                     originalTitle.textContent = title;
                     originalArtistName.textContent = artistName;
-                    translationTitle.style.display = 'block';
+
                     translationBody.style.display = 'block';
                     translationBody.rows = koreanLyrics.split('\n').length - 1;
 
-                    translationTitle.value = englishTitle;
                     translationBody.value = englishLyrics;
 
                     originalLyrics.setAttribute('style', 'white-space: pre;');
@@ -335,25 +332,36 @@ const submitSearch = () => {
                       '\r\n'
                     );
 
-                    if (
-                      originalSongInfo.offsetWidth >
-                      translatedSongInfo.offsetWidth
-                    ) {
-                      translatedSongInfo.style.width =
-                        originalSongInfo.offsetWidth + 'px';
-                    } else {
-                      originalSongInfo.style.width =
-                        translatedSongInfo.offsetWidth + 'px';
-                    }
+                    topLeftButton.src = './public/images/back.png';
+                    topRightButton.src = './public/images/save-file.png';
 
-                    editSongInfoButton.src = '';
-                    translationSubmitButton.src = 'public/images/writing.png';
-                    translationSubmitButton.onclick = async () => {
+                    topLeftButton.onclick = async () => {
+                      messageDiv.style.display = 'none';
+                      songContentDiv.style.display = 'block';
+                      translationAreaDiv.style.display = 'none';
+                      frontPageAreaDiv.style.display = 'none';
+
+                      topLeftButton.src = './public/images/back.png';
+                      topRightButton.src = './public/images/pencil.png';
+
+                      topLeftButton.onclick = async () => {
+                        messageDiv.style.display = 'none';
+                        songContentDiv.style.display = 'none';
+                        translationAreaDiv.style.display = 'none';
+                        frontPageAreaDiv.style.display = 'block';
+                        topButtons.style.display = 'none';
+
+                        topLeftButton.src = './public/images/transparent.png';
+                        topRightButton.src = './public/images/transparent.png';
+                      };
+                      topRightButton.onclick = editExistingTranslation;
+                    };
+
+                    topRightButton.onclick = async () => {
                       console.log('submitting translation...');
 
                       try {
                         await axios.put(backendUrl + 'songs' + '/' + title, {
-                          englishTitle: translationTitle.value,
                           englishLyrics: translationBody.value,
                         });
 
@@ -361,7 +369,7 @@ const submitSearch = () => {
 
                         searchbar.value = userInput;
                         searchbar.setAttribute('type', 'text');
-                        submitSearchButton.style.visibility = 'visible';
+                        magnifyingGlass.style.visibility = 'visible';
 
                         main(i);
                       } catch (err) {
@@ -369,15 +377,30 @@ const submitSearch = () => {
                       }
                     };
                   };
+
+                  // this code repeats down below. It is slightly different as it pulls existing text data.
+                  topLeftButton.src = './public/images/back.png';
+                  topRightButton.src = './public/images/pencil.png';
+
+                  topLeftButton.onclick = async () => {
+                    messageDiv.style.display = 'none';
+                    songContentDiv.style.display = 'none';
+                    translationAreaDiv.style.display = 'none';
+                    frontPageAreaDiv.style.display = 'block';
+
+                    topLeftButton.src = './public/images/transparent.png';
+                    topRightButton.src = './public/images/transparent.png';
+                  };
+
+                  topRightButton.onclick = editExistingTranslation;
                 } else {
                   console.log('missing english translation...');
-
-                  addTranslationButton.src = 'public/images/write.png';
 
                   messageDiv.style.display = 'grid';
                   songContentDiv.style.display = 'none';
                   translationAreaDiv.style.display = 'none';
                   frontPageAreaDiv.style.display = 'none';
+                  topButtons.style.display = 'flex';
 
                   loading.textContent = '';
                   errorMsg.setAttribute('style', 'white-space: pre;');
@@ -395,26 +418,39 @@ const submitSearch = () => {
                     '\r\n\r\n' +
                     'Do it yourself?';
 
+                  // this code repeats down below. It is slightly different as it pulls existing text data.
+                  topLeftButton.src = './public/images/back.png';
+                  topRightButton.src = './public/images/transparent.png';
+
+                  topLeftButton.onclick = async () => {
+                    messageDiv.style.display = 'none';
+                    songContentDiv.style.display = 'none';
+                    translationAreaDiv.style.display = 'none';
+                    frontPageAreaDiv.style.display = 'block';
+                    searchDiv.style.display = 'flex';
+
+                    topLeftButton.src = './public/images/transparent.png';
+                    topRightButton.src = './public/images/transparent.png';
+                  };
+
+                  topRightButton.onclick = () => {};
+
+                  addTranslationButton.src = './public/images/feather-pen.png';
                   addTranslationButton.onclick = () => {
                     console.log('switching to new translation mode...');
-
-                    resetElements();
 
                     messageDiv.style.display = 'none';
                     songContentDiv.style.display = 'none';
                     translationAreaDiv.style.display = 'grid';
                     frontPageAreaDiv.style.display = 'none';
 
-                    searchbar.setAttribute('type', 'hidden');
-                    submitSearchButton.style.visibility = 'hidden';
+                    searchDiv.style.display = 'none';
 
                     originalTitle.textContent = title;
                     originalArtistName.textContent = artistName;
-                    translationTitle.style.display = 'block';
+
                     translationBody.style.display = 'block';
                     translationBody.rows = koreanLyrics.split('\n').length - 1;
-
-                    translationTitle.value = '';
                     translationBody.value = '';
 
                     originalLyrics.setAttribute('style', 'white-space: pre;');
@@ -423,31 +459,41 @@ const submitSearch = () => {
                       '\r\n'
                     );
 
-                    if (
-                      originalSongInfo.offsetWidth >
-                      translatedSongInfo.offsetWidth
-                    ) {
-                      translatedSongInfo.style.width =
-                        originalSongInfo.offsetWidth + 'px';
-                    } else {
-                      originalSongInfo.style.width =
-                        translatedSongInfo.offsetWidth + 'px';
-                    }
+                    topLeftButton.src = './public/images/back.png';
+                    topRightButton.src = './public/images/save-file.png';
 
-                    translationSubmitButton.src = 'public/images/writing.png';
-                    translationSubmitButton.onclick = async () => {
+                    topLeftButton.onclick = async () => {
+                      messageDiv.style.display = 'grid';
+                      songContentDiv.style.display = 'none';
+                      translationAreaDiv.style.display = 'none';
+                      frontPageAreaDiv.style.display = 'none';
+
+                      topLeftButton.src = './public/images/back.png';
+                      topRightButton.src = './public/images/transparent.png';
+
+                      topLeftButton.onclick = async () => {
+                        messageDiv.style.display = 'none';
+                        songContentDiv.style.display = 'none';
+                        translationAreaDiv.style.display = 'none';
+                        frontPageAreaDiv.style.display = 'block';
+                        searchDiv.style.display = 'flex';
+
+                        topLeftButton.src = './public/images/transparent.png';
+                        topRightButton.src = './public/images/transparent.png';
+                      };
+                    };
+
+                    topRightButton.onclick = async () => {
                       console.log('submitting translation...');
                       try {
                         await axios.put(backendUrl + 'songs' + '/' + title, {
-                          englishTitle: translationTitle.value,
                           englishLyrics: translationBody.value,
                         });
 
                         resetElements();
 
+                        searchDiv.style.display = 'flex';
                         searchbar.value = userInput;
-                        searchbar.setAttribute('type', 'text');
-                        submitSearchButton.style.visibility = 'visible';
 
                         main(i);
                       } catch (err) {
@@ -471,6 +517,8 @@ const submitSearch = () => {
                 translationAreaDiv.style.display = 'none';
                 frontPageAreaDiv.style.display = 'none';
 
+                addTranslationButton.src = './public/images/transparent.png';
+                errorMsg.textContent = '';
                 loading.textContent = 'Loading...';
 
                 main(i);
@@ -486,13 +534,8 @@ const submitSearch = () => {
       })
       .then((res) => {
         loading.textContent = '';
-        submitSearchButton.disabled = false;
       });
   }
-};
-
-translateButton.onclick = () => {
-  submitSearch();
 };
 
 // also submit when enter is pressed

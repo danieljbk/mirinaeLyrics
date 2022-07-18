@@ -10,7 +10,6 @@ router.get('/:koreanTitle', async (req, res) => {
       return res.status(400).send();
     }
     res.status(201).json({
-      englishTitle: song.englishTitle,
       englishLyrics: song.englishLyrics,
     });
   } catch (e) {
@@ -21,7 +20,6 @@ router.get('/:koreanTitle', async (req, res) => {
 router.put('/:koreanTitle', async (req, res) => {
   const newSong = new Song({
     koreanTitle: req.params.koreanTitle,
-    englishTitle: req.body.englishTitle,
     englishLyrics: req.body.englishLyrics,
   });
   try {
@@ -37,7 +35,6 @@ router.put('/:koreanTitle', async (req, res) => {
       } else {
         // if the old song already exists in the database, update its values
         try {
-          oldSong.englishTitle = newSong.englishTitle;
           oldSong.englishLyrics = newSong.englishLyrics;
 
           await oldSong.save();
