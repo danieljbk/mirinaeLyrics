@@ -126,7 +126,7 @@ header {
 #website-name {
   align-items: center;
   padding-top: 7.5px;
-  font-size: 30px;
+  font-size: 25px;
 }
 
 #website-name-subtext {
@@ -380,5 +380,5 @@ header {
 }
 
 #logo {
-  height: 20vh;
+  height: 18vh;
 }
