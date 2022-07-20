@@ -2,8 +2,8 @@
 
 let inko = new Inko(); // korean -> english characters and vice versa
 
-const backendUrl = 'https://kpoptranslator.herokuapp.com' + '/';
-// const backendUrl = 'http://localhost:8080' + '/';
+// const backendUrl = 'https://kpoptranslator.herokuapp.com' + '/';
+const backendUrl = 'http://localhost:8080' + '/';
 
 // const websiteNameSubtext = document.getElementById('website-name-subtext');
 const magnifyingGlass = document.getElementById('magnifying-glass');
