@@ -12,35 +12,6 @@ import KoreanFilter from 'badwords-ko';
 const englishFilter = new EnglishFilter();
 const koreanFilter = new KoreanFilter();
 
-router.get('/english', async (req, res) => {
-  try {
-    const searchResultsEnglish = await Client.songs.search(
-      req.query.searchTerm + ' english'
-    );
-
-    for (let song of searchResultsEnglish) {
-      // when searching for english lyrics, omit romanized lyrics
-      if (!song.title.toLowerCase().includes('romanize')) {
-        return res.send({
-          title: song.title,
-          artist: song.artist.name,
-          imageSrc: song._raw.song_art_image_url,
-          lyrics: englishFilter
-            .clean(
-              koreanFilter.clean(
-                (await song.lyrics()).replaceAll('\n', ' !@#$%^&*() ') // convert to identifiable string
-              )
-            )
-            .replaceAll(' !@#$%^&*() ', '\r\n'), // convert identifiable string to html-readable format
-        });
-      }
-    }
-  } catch (err) {
-    console.log(err);
-    res.status(400).send();
-  }
-});
-
 router.get('/multiple', async (req, res) => {
   try {
     const searchResultsKorean = await Client.songs.search(
@@ -63,6 +34,14 @@ router.get('/multiple', async (req, res) => {
             const imageSrc = song._raw.song_art_image_url;
             const geniusDefaultImageUrl =
               'https://assets.genius.com/images/default_cover_image.png';
+            const koreanLyrics = englishFilter
+              .clean(
+                koreanFilter.clean(
+                  (await song.lyrics()).replaceAll('\n', ' !@#$%^&*() ') // convert to identifiable string
+                )
+              )
+              .replaceAll(' !@#$%^&*() ', '\r\n');
+
             if (!imageSrc.includes(geniusDefaultImageUrl)) {
               songs.push({
                 title: condenseWhitespace(
@@ -75,16 +54,11 @@ router.get('/multiple', async (req, res) => {
                   song.artist.name.replace('(한국어 번역)', '')
                 ),
                 imageSrc,
-                lyrics: englishFilter
-                  .clean(
-                    koreanFilter.clean(
-                      (await song.lyrics()).replaceAll('\n', ' !@#$%^&*() ') // convert to identifiable string
-                    )
-                  )
-                  .replaceAll(' !@#$%^&*() ', '\r\n'), // convert identifiable string to html-readable format
+                lyrics: koreanLyrics, // convert identifiable string to html-readable format
               });
               count += 1;
             }
+            // }
           }
         }
       }

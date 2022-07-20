@@ -46,9 +46,6 @@ app.use('/search/', searchRouter);
 import songsRouter from './src/routes/songs.js';
 app.use('/songs/', songsRouter);
 
-import spotifyRouter from './src/routes/spotify.js';
-app.use('/spotify/', spotifyRouter);
-
 import mirinaeRouter from './src/routes/mirinae.js';
 app.use('/mirinae/', mirinaeRouter);
 

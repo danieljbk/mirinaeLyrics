@@ -32,17 +32,17 @@
         <header id="header">
           <div id="header-content">
             <div id="header-content-left">
-              <a href="/">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://www.mirinae.io"
+              >
                 <input
                   type="image"
                   id="logo"
-                  src="./public/images/logo.png"
+                  src="./public/images/mirinae.png"
                   alt=""
-                  href="/"
               /></a>
-              <!-- <p id="website-name-subtext">
-                Created by Joonbeom Kwon & Kai Seo
-              </p> -->
             </div>
             <div id="header-content-middle">
               <div id="search">
@@ -54,6 +54,7 @@
                   placeholder="What's your favorite K-Pop song?"
                   required
                   autofocus
+                  autocomplete="off"
                 />
               </div>
             </div>
@@ -88,7 +89,6 @@
         <div id="top-buttons">
           <input type="image" id="top-left-button" src="" alt="" />
           <div id="top-button-separator"></div>
-          <input type="image" id="top-right-button" src="" alt="" />
         </div>
 
         <div id="message-content">
@@ -123,58 +123,17 @@
               <p id="display-artist-name"></p>
             </div>
 
-            <div id="song-info" class="flex">
-              <div id="korean-version">
-                <h3 id="korean-title"></h3>
-
-                <p id="korean-lyrics"></p>
-                <div id="korean-lyrics-mirinae"></div>
-              </div>
-
-              <div class="splitter"></div>
-
-              <div id="english-version">
-                <h3 id="english-title"></h3>
-                <p id="disclaimer">**Translation may be wildly inaccurate.**</p>
-                <br />
-                <p id="english-lyrics"></p>
-              </div>
+            <div id="song-info">
+              <div id="korean-lyrics-mirinae"></div>
             </div>
-          </div>
-        </div>
-
-        <div id="translation-content">
-          <div id="display-translation-area">
-            <div id="user-translated">
-              <h3 id="original-title"></h3>
-              <p id="original-artist-name"></p>
-              <div id="both-lyrics" class="flex">
-                <div id="left-lyrics" class="half-screen-width">
-                  <p id="original-lyrics"></p>
-                </div>
-                <div id="right-lyrics" class="half-screen-width">
-                  <textarea
-                    id="translated-lyrics"
-                    placeholder="Start your translation here!"
-                    required
-                    style="display: none"
-                    autofocus
-                  ></textarea>
-                </div>
-              </div>
-            </div>
-            <div class="splitter"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- <footer contentEditable></footer> -->
-
     <noscript>Please enable JavaScript.</noscript>
     <script type="module" src="./public/app.js" defer></script>
     <script src="./node_modules/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/inko@1.1.1/inko.min.js"></script>
     <script src="https://unpkg.com/mustache@latest"></script>
     <script src="./public/src/renderTemplates.js"></script>
   </body>

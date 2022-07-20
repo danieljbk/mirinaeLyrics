@@ -33,15 +33,15 @@ a {
 body {
   min-height: 100%;
   max-width: 100%;
-  color: #fff;
-  background-color: #000000;
+  color: #000000;
+  background-color: #f6fbfb;
   font-family: 'Montserrat', sans-serif;
   display: table;
   margin: 0;
 }
 
 footer {
-  background-color: #000000;
+  background-color: #f6fbfb;
   width: 100%;
   height: var(--footer-height);
   z-index: 1;
@@ -63,8 +63,8 @@ textarea {
   width: 500px;
   border-width: thin;
   font-family: 'Montserrat', sans-serif;
-  background-color: #000000;
-  color: #fff;
+  background-color: #f6fbfb;
+  color: #000000;
   opacity: 0.5;
   border: none;
 }
@@ -91,7 +91,7 @@ textarea {
 
 /* header's visibility is set to visible in app.js after first search */
 header {
-  background-color: #000000;
+  background-color: #f6fbfb;
   width: 100%;
   height: var(--header-height);
   z-index: 1;
@@ -173,11 +173,11 @@ header {
 #searchbar {
   /* text-align: center; */
   background-color: transparent;
-  color: #fff;
+  color: #000000;
   border-style: ridge;
   border-radius: 50px;
   border-width: 1.5px;
-  border-color: #fff;
+  border-color: #48a9a6;
   /* display: block; */
   font-size: 20px;
   width: 100%;
@@ -375,7 +375,7 @@ header {
 }
 
 #logo {
-  height: 18vh;
+  width: 30vw;
   padding-top: 5%;
   padding-bottom: 5%;
 }
@@ -383,12 +383,12 @@ header {
 .textButton {
   background: none;
   border: none;
-  color: white;
+  color: black;
   font-size: 20px;
   font-family: 'Montserrat', sans-serif;
   cursor: pointer;
 }
 
 .textButton:hover {
-  color: lightblue;
+  color: #87cbc8;
 }
