@@ -1,5 +1,5 @@
 {
-  "name": "K-Pop Translator",
+  "name": "Mirinae Lyrics",
   "version": "1.0.0",
   "type": "module",
   "main": "public/app.js",
@@ -9,26 +9,17 @@
   },
   "dependencies": {
     "alib-array": "^1.4.0",
-    "array-union": "^3.0.1",
     "axios": "^0.27.2",
-    "bad-words": "^3.0.4",
-    "badwords-ko": "^0.0.6",
     "condense-whitespace": "^3.0.0",
     "connect-livereload": "^0.6.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "genius-lyrics": "^4.3.8",
-    "inko": "^1.1.1",
     "jimp": "^0.16.1",
-    "lightbox2": "^2.11.3",
     "livereload": "^0.9.3",
     "mongoose": "^6.4.4",
-    "path": "^0.12.7",
-    "puppeteer": "^15.4.0",
-    "request": "^2.88.2",
-    "spotify-web-api-node": "^5.0.2",
-    "string-similarity": "^4.0.4"
+    "puppeteer": "^15.4.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"

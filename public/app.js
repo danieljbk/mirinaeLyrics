@@ -1,9 +1,10 @@
 'use strict';
 
-// const backendUrl = 'https://kpoptranslator.herokuapp.com' + '/';
-const backendUrl = 'http://localhost:8080' + '/';
+const inko = new Inko();
 
-// const websiteNameSubtext = document.getElementById('website-name-subtext');
+const backendUrl = 'https://kpoptranslator.herokuapp.com' + '/';
+// const backendUrl = 'http://localhost:8080' + '/';
+
 const searchDiv = document.getElementById('search');
 const searchbar = document.getElementById('searchbar');
 const loadingText = document.getElementById('loading');
@@ -40,49 +41,90 @@ const resetElements = () => {
   }
 };
 
+const textContainsKorean = (text) => {
+  let containsKorean = false;
+
+  // get rid of special characters (turns it into an array)
+  for (let word of text.match(/[\p{L}-]+/gu)) {
+    if (word && word.toLowerCase() === inko.en2ko(word.toLowerCase())) {
+      containsKorean = true;
+      break;
+    }
+  }
+
+  return containsKorean;
+};
 const displayLinkedKoreanLyrics = (lyrics) => {
   const koreanLyricsDiv = document.getElementById('korean-lyrics-mirinae');
 
   for (let line of lyrics.split('\n')) {
+    let textDiv = document.createElement('div');
+
+    let sentenceButton = document.createElement('input');
+    sentenceButton.type = 'button';
+    sentenceButton.className = 'textButton';
+
+    line = line.trim();
     if (line) {
-      line = line.trim();
-
-      let sentenceButton = document.createElement('input');
-      sentenceButton.type = 'button';
-      sentenceButton.className = 'textButton';
-
-      let image = document.createElement('img');
-      image.style.maxWidth = '80vw';
-      image.style.maxHeight = '17.5vh';
       sentenceButton.value = line;
-      sentenceButton.onclick = async () => {
-        sentenceButton.disabled = true;
-        try {
-          await axios
-            .get(encodeURI(backendUrl + 'mirinae' + '/' + sentenceButton.value))
-            .then((res) => res.data)
-            .then((data) => {
-              image.src = 'data:image/png;base64,' + data.base64;
-              image.style.paddingTop = '2.5vh';
-              image.style.paddingBottom = '2.5vh';
-            })
-            .catch((err) => {
-              console.log('Failed to load image from database.');
-              console.log(err);
-            });
-        } catch (err) {
-          console.log('Failed to send GET request.');
-          console.log(err);
-          throw new Error();
-        }
-        sentenceButton.disabled = false;
-      };
-      koreanLyricsDiv.appendChild(sentenceButton);
-      koreanLyricsDiv.appendChild(image);
 
-      var p = document.createElement('p');
-      koreanLyricsDiv.appendChild(p);
+      // if the line is not korean, or something like [Verse 1]...
+      // there's no need for the mirinae result.
+      if (!textContainsKorean(line)) {
+        sentenceButton.className = 'textButton disabled';
+        sentenceButton.disabled = true;
+        textDiv.appendChild(sentenceButton);
+        koreanLyricsDiv.appendChild(textDiv);
+      } else {
+        let image = document.createElement('img');
+        image.style.alignSelf = 'center';
+
+        sentenceButton.onclick = async () => {
+          sentenceButton.disabled = true;
+
+          // display gears.gif while loading data
+          image.src = './public/images/gears.gif';
+          image.style.maxHeight = '10vh';
+          image.style.paddingTop = '7.25vh';
+          image.style.paddingBottom = '7.25vh';
+          try {
+            await axios
+              .get(
+                encodeURI(backendUrl + 'mirinae' + '/' + sentenceButton.value)
+              )
+              .then((res) => res.data)
+              .then((data) => {
+                // display the mirinae image
+                image.src = 'data:image/png;base64,' + data.base64;
+                image.style.paddingTop = '2.5vh';
+                image.style.paddingBottom = '2.5vh';
+                image.style.maxWidth = '80vw';
+                image.style.maxHeight = '20vh';
+              })
+              .catch((err) => {
+                // display error.png
+                image.src = './public/images/error.png';
+                console.log('Failed to load image from database.');
+                console.log(err);
+              });
+          } catch (err) {
+            console.log('Failed to send GET request.');
+            console.log(err);
+            throw new Error();
+          }
+          sentenceButton.disabled = false;
+        };
+        textDiv.appendChild(sentenceButton);
+        koreanLyricsDiv.appendChild(textDiv);
+
+        koreanLyricsDiv.appendChild(image);
+      }
+    } else {
+      textDiv.appendChild(sentenceButton);
+      koreanLyricsDiv.appendChild(textDiv);
     }
+    var p = document.createElement('p');
+    koreanLyricsDiv.appendChild(p);
   }
 };
 
@@ -101,12 +143,11 @@ const submitSearch = () => {
     root.style.setProperty('--header-height', headerHeight + 'vh'); // collapse header
     root.style.setProperty('--header-flex-direction', 'row');
     header.style.borderBottomColor = '#48a9a6';
-    // 87cbc8
+    // 87cbc8 is the lighter blue
     document.body.style.background = '#f6fbfb';
 
     loadingText.textContent = 'Searching';
 
-    // websiteNameSubtext.style.display = 'none';
     logo.style.height = 0.66 * headerHeight + 'vh';
     logo.style.display = 'block';
     logo.style.paddingLeft = '7.5vw';

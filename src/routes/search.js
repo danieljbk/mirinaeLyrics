@@ -7,11 +7,6 @@ const Client = new Genius.Client();
 import alibarray from 'alib-array';
 import condenseWhitespace from 'condense-whitespace';
 
-import EnglishFilter from 'bad-words';
-import KoreanFilter from 'badwords-ko';
-const englishFilter = new EnglishFilter();
-const koreanFilter = new KoreanFilter();
-
 router.get('/multiple', async (req, res) => {
   try {
     const searchResultsKorean = await Client.songs.search(
@@ -34,12 +29,8 @@ router.get('/multiple', async (req, res) => {
             const imageSrc = song._raw.song_art_image_url;
             const geniusDefaultImageUrl =
               'https://assets.genius.com/images/default_cover_image.png';
-            const koreanLyrics = englishFilter
-              .clean(
-                koreanFilter.clean(
-                  (await song.lyrics()).replaceAll('\n', ' !@#$%^&*() ') // convert to identifiable string
-                )
-              )
+            const koreanLyrics = (await song.lyrics())
+              .replaceAll('\n', ' !@#$%^&*() ') // convert to identifiable string
               .replaceAll(' !@#$%^&*() ', '\r\n');
 
             if (!imageSrc.includes(geniusDefaultImageUrl)) {

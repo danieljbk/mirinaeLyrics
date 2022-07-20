@@ -392,3 +392,13 @@ header {
 .textButton:hover {
   color: #87cbc8;
 }
+
+.textButton.disabled {
+  color: black;
+  cursor: default;
+}
+
+#korean-lyrics-mirinae {
+  display: flex;
+  flex-direction: column;
+}

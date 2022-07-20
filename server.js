@@ -43,9 +43,6 @@ app.get('/', (req, res) => {
 import searchRouter from './src/routes/search.js';
 app.use('/search/', searchRouter);
 
-import songsRouter from './src/routes/songs.js';
-app.use('/songs/', songsRouter);
-
 import mirinaeRouter from './src/routes/mirinae.js';
 app.use('/mirinae/', mirinaeRouter);
 
