@@ -15,7 +15,6 @@ const errorMsg = document.getElementById('error-message');
 const koreanVersion = document.getElementById('korean-version');
 const topButtons = document.getElementById('top-buttons');
 const topLeftButton = document.getElementById('top-left-button');
-const spotifyPlayer = document.getElementById('embedded-spotify-player');
 
 const header = document.getElementById('header');
 const logo = document.getElementById('logo');
