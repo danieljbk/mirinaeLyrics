@@ -64,6 +64,49 @@ const resetElements = () => {
   spotifyPlayer.innerHTML = '';
 };
 
+const displayLinkedKoreanLyrics = (lyrics) => {
+  const koreanLyricsDiv = document.getElementById('korean-lyrics-mirinae');
+
+  for (let line of lyrics.split('\r\n')) {
+    if (line) {
+      line = line.trim();
+
+      let sentenceButton = document.createElement('input');
+      sentenceButton.type = 'button';
+
+      let image = document.createElement('img');
+      sentenceButton.value = line;
+      sentenceButton.onclick = async () => {
+        sentenceButton.disabled = true;
+        try {
+          await axios
+            .get(encodeURI(backendUrl + 'mirinae' + '/' + sentenceButton.value))
+            .then((res) => res.data)
+            .then((data) => {
+              image.src = 'data:image/png;base64,' + data.base64;
+            })
+            .catch((err) => {
+              console.log('Failed to load image from database.');
+              console.log(err);
+            });
+        } catch (err) {
+          console.log('Failed to send GET request.');
+          console.log(err);
+          throw new Error();
+        }
+        sentenceButton.disabled = false;
+      };
+      koreanLyricsDiv.appendChild(sentenceButton);
+      koreanLyricsDiv.appendChild(image);
+    } else {
+      var span = document.createElement('span');
+      var lineBreak = document.createElement('br');
+      span.appendChild(lineBreak);
+      koreanLyricsDiv.appendChild(span);
+    }
+  }
+};
+
 const submitSearch = () => {
   const userInput = searchbar.value;
   if (userInput) {
@@ -310,10 +353,16 @@ const submitSearch = () => {
                   artist.textContent = artistName;
                   koreanTitleText.textContent = 'Original';
                   koreanLyricsText.setAttribute('style', 'white-space: pre;');
-                  koreanLyricsText.textContent = koreanLyrics;
+                  // koreanLyricsText.textContent = koreanLyrics;
                   englishTitleText.textContent = 'Translated';
                   englishLyricsText.setAttribute('style', 'white-space: pre;');
                   englishLyricsText.textContent = englishLyrics;
+
+                  //
+
+                  displayLinkedKoreanLyrics(koreanLyrics);
+
+                  //
 
                   if (koreanVersion.offsetWidth > englishVersion.offsetWidth) {
                     englishVersion.style.width =

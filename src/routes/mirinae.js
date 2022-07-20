@@ -1,10 +1,8 @@
-import express from 'express';
-const router = express.Router();
-
 import puppeteer from 'puppeteer';
 import Jimp from 'jimp';
-
-import MirinaeOutput from '../models/mirinaeOutput.js';
+import Mirinae from '../models/mirinae.js';
+import express from 'express';
+const router = express.Router();
 
 router.get('/:textInput', async (req, res) => {
   // takes string, returns buffer
@@ -21,8 +19,8 @@ router.get('/:textInput', async (req, res) => {
     await page.type('#editable-source', text);
     await page.type('#editable-source', String.fromCharCode(13));
 
-    // wait until result loads
-    await page.waitForSelector('.original-words');
+    // wait until necessary results load
+    await page.waitForSelector('.parse-tree');
 
     // manipulate body element
     await page.evaluate((selector) => {
@@ -31,8 +29,10 @@ router.get('/:textInput', async (req, res) => {
       body.style.backgroundColor = 'transparent';
     }, '#exploration'); // must pass in selector. if not, can't access element (for some reason)
 
-    // clear unnecessary elements; as the popup classes change often, begin from the root
+    // only leave the specific necessary result elements on the page
     await page.evaluate((selector) => {
+      document.querySelectorAll('.toggle-button')[0].parentElement.remove();
+
       var root = document.querySelector(selector);
       var content = root.firstChild;
       var contentChildren = content.children;
@@ -55,12 +55,19 @@ router.get('/:textInput', async (req, res) => {
 
       // hide everything other than the explanation in the result
       for (var i = 0; i < resultChildren.length; i++) {
-        if (
-          resultChildren[i].firstChild.firstChild.id === 'svg-layout-template'
-        )
+        if (resultChildren[i].firstChild.id === 'translation') {
+          resultChildren[i].style.margin = '0';
           continue;
-        else if (resultChildren[i].firstChild.id === 'translation') continue;
-        else resultChildren[i].style.display = 'none';
+        }
+
+        const atomicChildren = resultChildren[i].children;
+        for (var j = 0; j < atomicChildren.length; j++) {
+          if (atomicChildren[j].firstChild) {
+            if (atomicChildren[j].firstChild.id === 'svg-layout-template')
+              continue;
+            else atomicChildren[j].style.display = 'none';
+          }
+        }
       }
 
       // hide everything else in the content div
@@ -92,7 +99,7 @@ router.get('/:textInput', async (req, res) => {
       let image = await Jimp.read(imageBuffer);
 
       // automatically crop the empty space from the image
-      image = image.autocrop(); // a JIMP function
+      image = await image.autocrop(); // a JIMP function
 
       // convert back to buffer
       image = await image.getBufferAsync(Jimp.MIME_PNG);
@@ -103,29 +110,35 @@ router.get('/:textInput', async (req, res) => {
     }
   };
 
+  const bufferToBase64 = (buffer) => {
+    return buffer.toString('base64');
+  };
+
   // search database for the specific text query
   const textInput = req.params.textInput;
   try {
-    const result = await MirinaeOutput.findOne({ textInput });
+    const result = await Mirinae.findOne({ textInput });
 
     if (result) {
-      return res.status(201).send(result.imageOutput);
+      return res
+        .status(201)
+        .json({ base64: bufferToBase64(result.imageBuffer) });
     } else {
       // if output does not exist in database
       try {
         // scrape mirinae.io, take screenshot, and automatically crop extra space
-        const imageBuffer = await scrapeMirinae(textInput);
+        let imageBuffer = await scrapeMirinae(textInput);
         imageBuffer = await autocropImage(imageBuffer);
 
         // save buffer to database.
-        mirinaeOutput = new MirinaeOutput({
+        const mirinaeOutput = new Mirinae({
           textInput,
-          imageOutput: imageBuffer,
+          imageBuffer,
         });
 
         await mirinaeOutput.save();
 
-        return res.status(200).send(imageBuffer);
+        return res.status(200).json({ base64: bufferToBase64(imageBuffer) });
       } catch (err) {
         console.error(err);
         return res.status(500).send('Server Error');

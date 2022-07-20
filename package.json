@@ -21,6 +21,7 @@
     "genius-lyrics": "^4.3.8",
     "inko": "^1.1.1",
     "jimp": "^0.16.1",
+    "lightbox2": "^2.11.3",
     "livereload": "^0.9.3",
     "mongoose": "^6.4.4",
     "path": "^0.12.7",
