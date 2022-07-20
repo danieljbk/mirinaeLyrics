@@ -31,7 +31,7 @@ db.once('open', () => {
 app.use(express.static(__dirname));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: 'http://localhost:8080' }));
+app.use(cors({ origin: '*' }));
 app.use(connectLivereload());
 
 // send the user to index html page in spite of the url
@@ -47,6 +47,9 @@ app.use('/songs/', songsRouter);
 
 import spotifyRouter from './src/routes/spotify.js';
 app.use('/spotify/', spotifyRouter);
+
+import mirinaeRouter from './src/routes/mirinae.js';
+app.use('/mirinae/', mirinaeRouter);
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
