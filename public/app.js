@@ -2,7 +2,7 @@
 
 const inko = new Inko();
 
-const backendUrl = 'https://herokulyrics.herokuapp.com' + '/';
+const backendUrl = 'https://mirinaelyrics.herokuapp.com' + '/';
 // const backendUrl = 'http://localhost:8080' + '/';
 
 const searchDiv = document.getElementById('search');
