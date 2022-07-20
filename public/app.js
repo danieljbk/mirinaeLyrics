@@ -67,14 +67,17 @@ const resetElements = () => {
 const displayLinkedKoreanLyrics = (lyrics) => {
   const koreanLyricsDiv = document.getElementById('korean-lyrics-mirinae');
 
-  for (let line of lyrics.split('\r\n')) {
+  for (let line of lyrics.split('\n')) {
     if (line) {
       line = line.trim();
 
       let sentenceButton = document.createElement('input');
       sentenceButton.type = 'button';
+      sentenceButton.className = 'textButton';
 
       let image = document.createElement('img');
+      image.style.maxWidth = '1000px';
+      image.style.maxHeight = '300px';
       sentenceButton.value = line;
       sentenceButton.onclick = async () => {
         sentenceButton.disabled = true;
@@ -98,11 +101,9 @@ const displayLinkedKoreanLyrics = (lyrics) => {
       };
       koreanLyricsDiv.appendChild(sentenceButton);
       koreanLyricsDiv.appendChild(image);
-    } else {
-      var span = document.createElement('span');
-      var lineBreak = document.createElement('br');
-      span.appendChild(lineBreak);
-      koreanLyricsDiv.appendChild(span);
+
+      var p = document.createElement('p');
+      koreanLyricsDiv.appendChild(p);
     }
   }
 };
@@ -351,12 +352,12 @@ const submitSearch = () => {
 
                   songTitle.textContent = title;
                   artist.textContent = artistName;
-                  koreanTitleText.textContent = 'Original';
-                  koreanLyricsText.setAttribute('style', 'white-space: pre;');
+                  // koreanTitleText.textContent = 'Original';
+                  // koreanLyricsText.setAttribute('style', 'white-space: pre;');
                   // koreanLyricsText.textContent = koreanLyrics;
-                  englishTitleText.textContent = 'Translated';
-                  englishLyricsText.setAttribute('style', 'white-space: pre;');
-                  englishLyricsText.textContent = englishLyrics;
+                  // englishTitleText.textContent = 'Translated';
+                  // englishLyricsText.setAttribute('style', 'white-space: pre;');
+                  // englishLyricsText.textContent = englishLyrics;
 
                   //
 

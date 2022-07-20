@@ -8,7 +8,14 @@ router.get('/:textInput', async (req, res) => {
   // takes string, returns buffer
   const scrapeMirinae = async (text) => {
     const browser = await puppeteer.launch({
+      devtools: false,
       defaultViewport: null,
+      headless: true,
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--window-size=1920,1080',
+      ],
     });
 
     let page = await browser.newPage();
@@ -20,7 +27,7 @@ router.get('/:textInput', async (req, res) => {
     await page.type('#editable-source', String.fromCharCode(13));
 
     // wait until necessary results load
-    await page.waitForSelector('.parse-tree');
+    await page.waitForSelector('.original-words'); // parse-tree does not load sometimes
 
     // manipulate body element
     await page.evaluate((selector) => {
