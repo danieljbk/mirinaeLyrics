@@ -8,96 +8,100 @@ import Mirinae from '../models/mirinae.js';
 router.get('/:textInput', async (req, res) => {
   // takes string, returns buffer
   const scrapeMirinae = async (text) => {
-    const browser = await puppeteer.launch({
-      devtools: false,
-      defaultViewport: null,
-      headless: true,
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--window-size=1920,1080',
-      ],
-    });
+    try {
+      const browser = await puppeteer.launch({
+        devtools: false,
+        defaultViewport: null,
+        headless: true,
+        args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--window-size=1920,1080',
+        ],
+      });
 
-    let page = await browser.newPage();
-    await page.goto('https://mirinae.io');
+      let page = await browser.newPage();
+      await page.goto('https://mirinae.io');
 
-    // click on textarea and type. then, press enter.
-    await page.click('#editable-source');
-    await page.type('#editable-source', text);
-    await page.type('#editable-source', String.fromCharCode(13));
+      // click on textarea and type. then, press enter.
+      await page.click('#editable-source');
+      await page.type('#editable-source', text);
+      await page.type('#editable-source', String.fromCharCode(13));
 
-    // wait until necessary results load
-    await page.waitForSelector('.original-words'); // parse-tree does not load sometimes
+      // wait until necessary results load
+      await page.waitForSelector('.original-words'); // parse-tree does not load sometimes
 
-    // manipulate body element
-    await page.evaluate((selector) => {
-      var body = document.querySelector(selector);
-      body.style.minHeight = 'fit-content';
-      body.style.backgroundColor = 'transparent';
-    }, '#exploration'); // must pass in selector. if not, can't access element (for some reason)
+      // manipulate body element
+      await page.evaluate((selector) => {
+        var body = document.querySelector(selector);
+        body.style.minHeight = 'fit-content';
+        body.style.backgroundColor = 'transparent';
+      }, '#exploration'); // must pass in selector. if not, can't access element (for some reason)
 
-    // only leave the specific necessary result elements on the page
-    await page.evaluate((selector) => {
-      document.querySelectorAll('.toggle-button')[0].parentElement.remove();
+      // only leave the specific necessary result elements on the page
+      await page.evaluate((selector) => {
+        document.querySelectorAll('.toggle-button')[0].parentElement.remove();
 
-      var root = document.querySelector(selector);
-      var content = root.firstChild;
-      var contentChildren = content.children;
+        var root = document.querySelector(selector);
+        var content = root.firstChild;
+        var contentChildren = content.children;
 
-      content.style.height = 'fit-content';
-      content.style.minHeight = 'fit-content';
+        content.style.height = 'fit-content';
+        content.style.minHeight = 'fit-content';
 
-      // first get index of result
-      let resultId;
-      for (var i = 0; i < contentChildren.length; i++) {
-        if (contentChildren[i].id === 'exploration-page') resultId = i;
-      }
-
-      var result = contentChildren[resultId];
-      var resultChildren = result.children;
-
-      // get rid of the extra height in the result
-      result.style.minHeight = 'fit-content';
-      result.style.padding = '0';
-
-      // hide everything other than the explanation in the result
-      for (var i = 0; i < resultChildren.length; i++) {
-        if (resultChildren[i].firstChild.id === 'translation') {
-          resultChildren[i].style.margin = '0';
-          continue;
+        // first get index of result
+        let resultId;
+        for (var i = 0; i < contentChildren.length; i++) {
+          if (contentChildren[i].id === 'exploration-page') resultId = i;
         }
 
-        const atomicChildren = resultChildren[i].children;
-        for (var j = 0; j < atomicChildren.length; j++) {
-          if (atomicChildren[j].firstChild) {
-            if (atomicChildren[j].firstChild.id === 'svg-layout-template')
-              continue;
-            else atomicChildren[j].style.display = 'none';
+        var result = contentChildren[resultId];
+        var resultChildren = result.children;
+
+        // get rid of the extra height in the result
+        result.style.minHeight = 'fit-content';
+        result.style.padding = '0';
+
+        // hide everything other than the explanation in the result
+        for (var i = 0; i < resultChildren.length; i++) {
+          if (resultChildren[i].firstChild.id === 'translation') {
+            resultChildren[i].style.margin = '0';
+            continue;
+          }
+
+          const atomicChildren = resultChildren[i].children;
+          for (var j = 0; j < atomicChildren.length; j++) {
+            if (atomicChildren[j].firstChild) {
+              if (atomicChildren[j].firstChild.id === 'svg-layout-template')
+                continue;
+              else atomicChildren[j].style.display = 'none';
+            }
           }
         }
-      }
 
-      // hide everything else in the content div
-      for (var i = 0; i < contentChildren.length; i++) {
-        if (i != resultId) contentChildren[i].style.display = 'none';
+        // hide everything else in the content div
+        for (var i = 0; i < contentChildren.length; i++) {
+          if (i != resultId) contentChildren[i].style.display = 'none';
 
-        `
+          `
       decided not to use remove due to difficulty with directly manipulating array
       if (i != resultId) content.removeChild(contentChildren[i]);
       `;
-      }
-    }, '#root'); // must pass in selector. if not, can't access element (for some reason)
+        }
+      }, '#root'); // must pass in selector. if not, can't access element (for some reason)
 
-    // take a screenshot of the screen
-    const imageBuffer = await page.screenshot({
-      omitBackground: true,
-      fullPage: true,
-    });
+      // take a screenshot of the screen
+      const imageBuffer = await page.screenshot({
+        omitBackground: true,
+        fullPage: true,
+      });
 
-    await browser.close();
+      await browser.close();
 
-    return imageBuffer;
+      return imageBuffer;
+    } catch (err) {
+      res.status(500).send('Error while scraping mirinae.io');
+    }
   };
 
   // takes buffer, returns buffer
