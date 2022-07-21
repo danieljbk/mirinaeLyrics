@@ -1,8 +1,9 @@
 import puppeteer from 'puppeteer';
 import Jimp from 'jimp';
-import Mirinae from '../models/mirinae.js';
 import express from 'express';
 const router = express.Router();
+
+import Mirinae from '../models/mirinae.js';
 
 router.get('/:textInput', async (req, res) => {
   // takes string, returns buffer

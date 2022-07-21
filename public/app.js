@@ -75,55 +75,72 @@ const displayLinkedKoreanLyrics = (lyrics) => {
         textDiv.appendChild(sentenceButton);
         koreanLyricsDiv.appendChild(textDiv);
       } else {
-        let image = document.createElement('img');
+        let image = document.createElement('input');
+        image.type = 'image';
         image.style.alignSelf = 'center';
+        image.src = './public/images/transparent.png';
+        image.style.maxHeight = 0;
 
         sentenceButton.onclick = async () => {
-          sentenceButton.disabled = true;
+          sentenceButton.className = 'textButton disabled';
 
-          // display gears.gif while loading data
-          image.src = './public/images/gears.gif';
-          image.style.maxHeight = '10vh';
-          image.style.paddingTop = '7.25vh';
-          image.style.paddingBottom = '7.25vh';
-          try {
-            await axios
-              .get(
-                encodeURI(backendUrl + 'mirinae' + '/' + sentenceButton.value)
-              )
-              .then((res) => res.data)
-              .then((data) => {
-                // display the mirinae image
-                image.src = 'data:image/png;base64,' + data.base64;
-                image.style.paddingTop = '2.5vh';
-                image.style.paddingBottom = '2.5vh';
-                image.style.maxWidth = '80vw';
-                image.style.maxHeight = '20vh';
-              })
-              .catch((err) => {
-                // display error.png
-                image.src = './public/images/error.png';
-                console.log('Failed to load image from database.');
-                console.log(err);
-              });
-          } catch (err) {
-            console.log('Failed to send GET request.');
-            console.log(err);
-            throw new Error();
+          // if the image has already been loaded, just show it again
+          image.style.maxHeight = '20vh';
+          image.style.paddingTop = '2.5vh';
+          image.style.paddingBottom = '2.5vh';
+
+          if (!image.src.includes('data:image/png;base64,')) {
+            // display gears.gif while loading data
+            image.src = './public/images/gears.gif';
+            image.style.maxHeight = '10vh';
+            image.style.paddingTop = '7.25vh';
+            image.style.paddingBottom = '7.25vh';
+
+            console.log('fetching mirinae output...');
+            try {
+              await axios
+                .get(
+                  encodeURI(backendUrl + 'mirinae' + '/' + sentenceButton.value)
+                )
+                .then((res) => res.data)
+                .then((data) => {
+                  // display the mirinae image
+                  image.src = 'data:image/png;base64,' + data.base64;
+                  image.style.paddingTop = '2.5vh';
+                  image.style.paddingBottom = '2.5vh';
+                  image.style.maxWidth = '80vw';
+                  image.style.maxHeight = '20vh';
+                })
+                .catch((err) => {
+                  // display error.png
+                  image.src = './public/images/error.png';
+                  console.log('Failed to load image from database.');
+                  console.log(err);
+                });
+            } catch (err) {
+              console.log('Failed to send GET request.');
+              console.log(err);
+              throw new Error();
+            }
           }
-          sentenceButton.disabled = false;
+          sentenceButton.className = 'textButton';
+
+          // hide image on click
+          image.onclick = () => {
+            image.style.maxHeight = 0;
+            image.style.paddingTop = 0;
+            image.style.paddingBottom = 0;
+          };
         };
         textDiv.appendChild(sentenceButton);
         koreanLyricsDiv.appendChild(textDiv);
-
         koreanLyricsDiv.appendChild(image);
       }
     } else {
+      sentenceButton.className = 'textButton disabled';
       textDiv.appendChild(sentenceButton);
       koreanLyricsDiv.appendChild(textDiv);
     }
-    var p = document.createElement('p');
-    koreanLyricsDiv.appendChild(p);
   }
 };
 

@@ -387,6 +387,8 @@ header {
   font-size: 20px;
   font-family: 'Montserrat', sans-serif;
   cursor: pointer;
+  padding-top: 0.15vh;
+  padding-bottom: 0.15vh;
 }
 
 .textButton:hover {
