@@ -168,11 +168,12 @@ header {
   margin-right: calc(-1 * (0.03 * 100vh + 2.5% + 2%));
   padding-left: 2.5%;
   padding-right: 2%;
+  z-index: 0;
 }
 
 #searchbar {
   /* text-align: center; */
-  background-color: transparent;
+  background-color: white;
   color: #000000;
   border-style: ridge;
   border-radius: 50px;

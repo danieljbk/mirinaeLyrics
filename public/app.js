@@ -2,8 +2,8 @@
 
 const inko = new Inko();
 
-const backendUrl = 'https://mirinaelyrics.herokuapp.com' + '/';
-// const backendUrl = 'http://localhost:8080' + '/';
+// const backendUrl = 'https://mirinaelyrics.herokuapp.com' + '/';
+const backendUrl = 'http://localhost:8080' + '/';
 
 const searchDiv = document.getElementById('search');
 const searchbar = document.getElementById('searchbar');
