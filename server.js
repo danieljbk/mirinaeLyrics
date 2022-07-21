@@ -5,6 +5,7 @@ import connectLivereload from 'connect-livereload';
 import express from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
+import compression from 'compression';
 
 const app = express();
 const __dirname = path.resolve();
