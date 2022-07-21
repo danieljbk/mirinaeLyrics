@@ -5,7 +5,6 @@ import connectLivereload from 'connect-livereload';
 import express from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
-import compression from 'compression';
 
 const app = express();
 const __dirname = path.resolve();
@@ -35,7 +34,6 @@ app.use(express.json({ limit: '1mb' })); // allow bigger file transfers
 app.use(express.urlencoded({ limit: '1mb', extended: true })); // allow bigger file transfers
 app.use(cors({ origin: '*' }));
 app.use(connectLivereload());
-app.use(compression()); // much smaller file size. gzips project.
 
 // send the user to index html page in spite of the url
 app.get('/', (req, res) => {
