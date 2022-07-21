@@ -34,6 +34,7 @@ app.use(express.json({ limit: '1mb' })); // allow bigger file transfers
 app.use(express.urlencoded({ limit: '1mb', extended: true })); // allow bigger file transfers
 app.use(cors({ origin: '*' }));
 app.use(connectLivereload());
+app.use(compression()); // much smaller file size. gzips project.
 
 // send the user to index html page in spite of the url
 app.get('/', (req, res) => {
